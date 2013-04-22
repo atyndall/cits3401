@@ -4,8 +4,6 @@ from datetime import date, timedelta
 from random import choice, sample, randrange, normalvariate
 from collections import namedtuple
 
-SALES_PER_SALES_PERIOD = 100
-
 PRICE_STDDEV = 100
 SALES_STDDEV = 25
 
@@ -65,7 +63,7 @@ Store = namedtuple('Store', ['name', 'country', 'design', 'type'])
 
 # Returns number of sales a store has for a given period
 def store_sales_magic(store, period):
-  return 100
+  return 3
 
 # Recieves data like: [PricedCombo, PricedCombo]
 # Returns tuple indicating the ratio of sales of combo 1 to combo 2
@@ -95,8 +93,9 @@ with open('out.csv', 'w', newline='') as fcsv:
     'StoreDesign',
     'StoreFacilities',
     
+    'SalesMonth',
+    'SalesYear',
     'SalesPeriod',
-    'SalesDate',
     
     'ComboName',
     'ComboSupplier',
@@ -150,34 +149,36 @@ with open('out.csv', 'w', newline='') as fcsv:
         # Write out sales of combo 1
         for _ in range(int(sales*ratio1)):
           writer.writerow((
-            scountry,
-            sname,
-            sdesign,
-            stype,
+            store.name,
+            store.country,
+            store.design,
+            store.type,
             
+            dt.month,
+            dt.year,
             period,
-            dt,
             
+            combos[0].combo.name,
             combos[0].combo.supplier,
             combos[0].combo.calories,
-            combos[0].combo.name,
             combos[0].price,
           ))
          
         # Write out sales of combo 2
         for _ in range(int(sales*ratio2)):
           writer.writerow((
-            scountry,
-            sname,
-            sdesign,
-            stype,
+            store.name,
+            store.country,
+            store.design,
+            store.type,
             
+            dt.month,
+            dt.year,
             period,
-            dt,
             
+            combos[1].combo.name,
             combos[1].combo.supplier,
             combos[1].combo.calories,
-            combos[1].combo.name,
             combos[1].price,
           ))
     
