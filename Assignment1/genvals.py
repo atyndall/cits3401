@@ -4,14 +4,14 @@ from datetime import date, timedelta
 from random import choice, sample, randrange, normalvariate, random
 from collections import namedtuple
 
-PRICE_STDDEV = 100
-SALES_STDDEV = 25
+SALES_STDDEV = 4000
 
-MIN_CALORIES = 500
-MAX_CALORIES = 10000
+MIN_CALORIES = 150
+MAX_CALORIES = 1500
 
-MIN_PRICE = 500
-MAX_PRICE = 10000
+PRICE_STDDEV = 150  # $1.50
+MIN_PRICE = 200     # $2
+MAX_PRICE = 1000    # $10
 
 NUM_TOTAL_COMBOS = 6
 
@@ -65,14 +65,63 @@ Store = namedtuple('Store', ['name', 'country', 'design', 'type'])
 
 # Returns number of sales a store has for a given speriod of promotion period
 def store_sales_magic(store, period):
-  return randrange(5000, 10000)
+  avgsales = { # Average sales by store facilities
+    'Dine-in': 50000,
+    'Drive-through': 70000,
+    'Both': 100000,
+  }
+  
+  design = { # Design factor influencing sales on restaurants offering dine-in
+    'Avant-garde': 1.2, # People love art
+    'Upside-down': 1.0, # People have no opinion on being upside-down
+    'No roof': 0.7, # People hate getting wet
+  }
+  
+  country = { # Countries influencing
+    'Australia': 1.0,
+    'New Zealand': 1.2,
+    'Singapore': 0.9,  
+  }
+  
+  csales = avgsales[store.type] * country[store.country]
+  
+  if store.type == 'Drive-through': # Drive-through isn't affected by store design
+    return normalvariate(csales, SALES_STDDEV)
+  else:
+    return normalvariate(csales * design[store.design], SALES_STDDEV)
 
 # Recieves data like: [PricedCombo, PricedCombo]
 # Returns tuple indicating the ratio of sales of combo 1 to combo 2
-def customer_decision_magic(combos):
-  a = random()
-  b = 1 - a
-  return (a, b)
+def customer_decision_magic(c):
+  c0ratio = 1.0 # Calorie ratio
+  p0ratio = 1.0 # Price ratio
+  ratio0 = 1.0 # Overall ratio
+  
+  # Caloric ratio
+  if c[0].combo.calories > c[1].combo.calories:
+    c0ratio = c[1].combo.calories / c[0].combo.calories
+    c0ratio = 1 - c0ratio
+  else:
+    c0ratio = c[0].combo.calories / c[1].combo.calories  
+    
+  # Price ratio
+  if c[0].price > c[1].price:
+    p0ratio = c[1].price / c[0].price
+    p0ratio = 1 - p0ratio
+  else:
+    p0ratio = c[0].price / c[1].price
+    
+  # Overall ratio is halfway between price and calorie ratio
+  ratio0 = (c0ratio + p0ratio) / 2
+  
+  # Tyndall has superior ingredients
+  if c[0].combo.supplier != c[1].combo.supplier:
+    if c[0].combo.supplier == 'Tyndall Wholefoods and Logistics Pty Ltd':
+      ratio0 *= 1.125
+    else:
+      ratio0 *= 0.875
+  
+  return (ratio0, 1-ratio0)
 
 # Generate stores
 stores = []
