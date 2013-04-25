@@ -74,16 +74,28 @@ def store_sales_magic(store, period):
   design = { # Design factor influencing sales on restaurants offering dine-in
     'Avant-garde': 1.2, # People love art
     'Upside-down': 1.0, # People have no opinion on being upside-down
-    'No roof': 0.7, # People hate getting wet
+    'No roof': 0.7,     # People hate getting wet
   }
   
-  country = { # Countries influencing
-    'Australia': 1.0,
-    'New Zealand': 1.2,
-    'Singapore': 0.9,  
+  country = { # Different countries, and how they like different meals
+    'Breakfast': {
+      'Australia': 0.4,
+      'New Zealand': 1.0,
+      'Singapore': 0.9,  
+    },
+    'Lunch': {
+      'Australia': 1.3,
+      'New Zealand': 1.2,
+      'Singapore': 0.4,  
+    },
+    'Dinner': {
+      'Australia': 1.0,
+      'New Zealand': 0.4,
+      'Singapore': 1.2,  
+    },
   }
   
-  csales = avgsales[store.type] * country[store.country]
+  csales = avgsales[store.type] * country[period][store.country]
   
   if store.type == 'Drive-through': # Drive-through isn't affected by store design
     return normalvariate(csales, SALES_STDDEV)
