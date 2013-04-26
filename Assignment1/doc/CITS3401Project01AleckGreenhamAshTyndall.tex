@@ -1,6 +1,7 @@
 \documentclass[12pt, a4paper]{article}
 
 \usepackage{titling}
+\usepackage{multirow}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -62,7 +63,9 @@ A detailed interpretation of the results of the OLAP operations is also outside 
 
 \section*{Requirements}
 
-Below is a summary of authors' interpretation of the initial requirements:
+Table \ref{tab:requirements} is a summary of authors' interpretation of the initial requirements:
+
+\begin{table}
 
 \begin{tabular}{|l|l|l|}
 
@@ -70,43 +73,44 @@ Below is a summary of authors' interpretation of the initial requirements:
 \textbf{Object} & \textbf{Properties} & \textbf{Restrictions} \\
 \hline
 
-Country & & 
-	Australia, New Zealand, Singapore 
-	\\
+Country & & Australia, New Zealand, Singapore \\
 \hline
 
-Store & 
-	\specialcell{Interior Design \\ Facility Type} & 
-	\specialcell{3 restaurants in each country \\ 3 different interior designs \\ Facilities are 'dine in', 'drive through' and 'both'} 
-	\\ 	
+\multirow{3}{3cm}{Store} & Interior Design  & 3 restaurants in each country \\
+ 	& Facility Type & 3 different interior designs \\
+	& & Facilities are 'dine in', 'drive through' and 'both' \\
 \hline
 
-Combo Meal &
-	\specialcell{Price Category \\ Calorie Value} & 
-	\specialcell{6 different combo meals \\ Not all stores have combo meals \\ Divided into 3 different price categories}
-	\\
+\multirow{3}{3cm}{Combo Meal} & Price Category & 6 different combo meals \\
+	& Calorie Value & Not all stores have combo meals \\
+	& Products & Divided into 3 different price categories \\ 
+
 \hline
 
-Supplier &
-	&
-	\specialcell{There are 2 suppliers \\ Suppliers do 3 combo meals each}
-	\\
+\multirow{2}{3cm}{Supplier} & & There are 2 suppliers \\ 
+	& & Suppliers do 3 combo meals each\\
 \hline
 
-Sale &
-	\specialcell{Date \\ Product} &
-	Date Between 2008 and 2012
-	\\
+\multirow{2}{3cm}{Sale} & Date & Date Between 2008 and 2012 \\
+	& Combo &  \\
 \hline
 
-Sales Period &
-	&
-	\specialcell{Has 2 combo meals \\ Can be 'breakfast', 'lunch' or 'dinner'}
-	\\
+\multirow{2}{3cm}{Sales Period} & & Has 2 combo meals \\ 
+	& & Can be 'breakfast', 'lunch' or 'dinner' \\
 \hline	
+
+Promotional Period & & 6 promotional periods per year\\
+
+\hline
+
 \end{tabular}
 
-\section*{Assumptions}
+\caption{System Requirements}
+\label{tab:requirements}
+
+\end{table}
+
+\subsection*{Assumptions}
 
 The following assumptions were made to:
 
@@ -125,11 +129,88 @@ The following assumptions were made to:
 	\item The same suppliers supply the ingredients for same combo meals, globally.
 	\item A promotional period has it’s own 6 combo meals (thus the combo meals change every 2 months).
 	\item The price of combo meals is set at the store level.
+	\item Each promotional period has a different set of combo meals
 \end{enumerate}
 
 \section*{Schema Design}
 
-A Star Schema was chosen as the design document \cite{designdoc} states Healthy Burgers is only interested in sales, which removes the need to have multiple fact tables (a Constellation Schema). 
+A Star Schema was chosen as the design document \cite{designdoc} states Healthy Burgers is only interested in sales, which removes the need to have multiple fact tables (a Constellation Schema). Table \ref{tab:dimensions} shows the dimension tables used in the solution implementation.
+
+The time values have been split into a number of different dimensions to facilitate the comparison of different time periods against each other. An example query is comparing the total sales during each sales period (Breakfast, Lunch or Dinner) across each promotional period (1st promotion, 2nd promotion, etc.) to find out whether a promotion was particularly successful for a given sales period.
+
+The remaining data has been split up into dimensions to accommodate queries that would be reasonably expected to be of interest to Healthy Burgers management.
+
+\begin{table}
+
+\begin{tabular}{| l | l |}
+\hline
+\textbf{Dimension} & \textbf{Fields} \\
+\hline
+
+\multirow{2}{3cm}{Store} & store\_key \\
+& country \\
+\hline
+
+Design & design\_key \\ 
+\hline
+
+Facilities & facility\_key \\
+\hline
+
+SalesPeriod & sales\_period\_key \\
+\hline
+
+PromotionalPeriod & promotional\_period\_key \\
+\hline
+
+Years & years\_key \\
+\hline
+
+\multirow{2}{3cm}{Combos} & combo\_key \\
+& calories \\
+\hline
+
+Suppliers & supplier\_key \\
+\hline
+
+Price Range & price\_range\_key \\
+\hline
+
+Calorie Range & calorie\_range\_key \\
+\hline
+
+\end{tabular}
+\caption{Dimension Tables}
+\label{tab:dimensions}
+
+\end{table}
+
+\begin{table}
+\begin{tabular}{| l | l |}
+\hline
+\multirow{10}{3cm}{Dimension Keys} & store\_key \\
+	& design\_key \\ 
+	& facility\_key \\
+	& sales\_period\_key \\
+	& promotional\_period\_key \\
+	& years\_key \\
+	& combo\_key \\
+	& supplier\_key \\
+	& price\_range\_key \\
+	& calorie\_range\_key \\
+\hline	
+
+Measures & total\_sales\_in\_dollars \\
+\hline
+
+\end{tabular}
+
+\caption{Fact Table}
+\label{tab:fact}
+
+\end{table}
+
+The requirements state that Healthy Burgers is only interested in a single measurement: sales in dollars; this is reflected in the fact table which consists of keys to all the of available dimensions, and the total sales in dollars.
 
 \section*{Implementation}
 
