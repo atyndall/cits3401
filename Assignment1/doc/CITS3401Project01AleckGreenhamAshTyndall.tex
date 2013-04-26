@@ -127,6 +127,22 @@ The following assumptions were made to:
 	\item The price of combo meals is set at the store level.
 \end{enumerate}
 
+\section*{Schema Design}
+
+A Star Schema was chosen as the design document \cite{designdoc} states Healthy Burgers is only interested in sales, which removes the need to have multiple fact tables (a Constellation Schema). 
+
+\section*{Implementation}
+
+\subsection*{Data Generation}
+
+A Python script authored by Tyndall generated random data that fit within the restrictions imposed by the initial requirements and what was considered realistic. Product names were generated from random dictionary words; product attributes such as price and calorie values were randomly generated around a realistic anchor. The rest of the data was similarly generated.
+
+\subsection*{Data Cube}
+
+\section*{Interesting Snapshots}
+
+
+
 \begin{thebibliography}{9}
 
 \bibitem{designdoc}
