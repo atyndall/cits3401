@@ -9,6 +9,9 @@
     \vskip0.5em}%
 }
 
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+  
 \setlength{\oddsidemargin}{0.5cm}
 \setlength{\evensidemargin}{0.5cm}
 \setlength{\topmargin}{-1.6cm}
@@ -45,17 +48,63 @@
 
 \section*{Abstract}
 
-This document details the design of a data cube suitable for the \textit{Healthy Burgers} franchise, a fast-food restaurant chain with stores in three countries, to aid management in its plans for improving sales and global expansion. Where the system requirements \cite{designdoc} was ambiguous or incomplete, reasonable assumptions were made and documented.
+This document details the design of a data cube suitable for the \textit{Healthy Burgers} franchise, a fast-food restaurant chain with stores in three countries, to aid management in its plans for improving sales and global expansion. Where the system requirements \cite{designdoc} were ambiguous or incomplete, reasonable assumptions were made and documented.
 
 \section*{Introduction}
 
-The client, Healthy Burgers, wishes to mine historical sales data from their nine stores spread across three countries across Australasia for the purpose aiding management in making decisions regarding global expansion of the franchise and to improve sales at existing restaurants. Each restaurant maintains a Online Transaction Processing (OLTP) database and there are aggregate databases at the state, country and worldwide levels. The company maintains data on sales, products, suppliers and restaurants. The purpose of this document is to detail the design of a data warehouse to extract data from these databases that will facilitate the mining needed by management.
+The client, Healthy Burgers, wishes to mine historical sales data from their nine stores spread across three countries across Australasia to aid management in making decisions regarding global expansion of the franchise and improving sales at existing restaurants. Each restaurant maintains a Online Transaction Processing (OLTP) database and there are aggregate databases at the state, country and worldwide levels. The company maintains data on sales, products, suppliers and restaurants. The purpose of this document is to detail the design of a data warehouse to extract data from these databases that will support the decisions faced by Healthy Burgers management.
 
 \section*{Limitations}
 
 It is outside the scope of this assessment to address the importing of data from the heterogeneous OLTP restaurant databases, including the cleaning of data. It shall be assumed that the data is complete, easily available and in the desired formats. It is acknowledged, however, that this would not be the case in real industry applications.
 
-A detailed interpretation of the results of the OLAP operations is also outside the scope of this assessment. It falls to management to fully interpret and make recommendations or decisions based on the data stored within the data warehouse.
+A detailed interpretation of the results of the OLAP operations is also outside the scope of this assessment. It falls to Healthy Burgers management to fully interpret and make recommendations or decisions based on the data stored within the data warehouse.
+
+\section*{Requirements}
+
+Below is a summary of authors' interpretation of the initial requirements:
+
+\begin{tabular}{|l|l|l|}
+
+\hline
+\textbf{Object} & \textbf{Properties} & \textbf{Restrictions} \\
+\hline
+
+Country & & 
+	Australia, New Zealand, Singapore 
+	\\
+\hline
+
+Store & 
+	\specialcell{Interior Design \\ Facility Type} & 
+	\specialcell{3 restaurants in each country \\ 3 different interior designs \\ Facilities are 'dine in', 'drive through' and 'both'} 
+	\\ 	
+\hline
+
+Combo Meal &
+	\specialcell{Price Category \\ Calorie Value} & 
+	\specialcell{6 different combo meals \\ Not all stores have combo meals \\ Divided into 3 different price categories}
+	\\
+\hline
+
+Supplier &
+	&
+	\specialcell{There are 2 suppliers \\ Suppliers do 3 combo meals each}
+	\\
+\hline
+
+Sale &
+	\specialcell{Date \\ Product} &
+	Date Between 2008 and 2012
+	\\
+\hline
+
+Sales Period &
+	&
+	\specialcell{Has 2 combo meals \\ Can be 'breakfast', 'lunch' or 'dinner'}
+	\\
+\hline	
+\end{tabular}
 
 \section*{Assumptions}
 
@@ -69,7 +118,6 @@ The following assumptions were made to:
 
 \begin{enumerate}
 	\item The type of ingredients are not important, only their supplier - i.e. the supplier is a proxy for how desirable the ingredients they supply are. 
-	\item High calorie burgers reported as tasting better is irrelevant information.
 	\item Sale periods are identified by their names and not by time ranges.
 	\item There are six combo meals globally.
 	\item There are 3 sales periods, each with 2 combo meals, and there only being a total of 6 combo meals to choose from. If it’s true that not all stores sell all the combo meals, then some combo meals must be shared between sales periods.
