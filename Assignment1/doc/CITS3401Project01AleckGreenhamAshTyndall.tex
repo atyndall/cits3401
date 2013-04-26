@@ -1,0 +1,66 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{titling}
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\rightmargin}{0.5cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 0pt
+\parskip 5pt
+\pagestyle{plain}
+\usepackage[numbers]{natbib}
+\usepackage{capt-of}
+\usepackage{graphicx,url}
+
+\newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{namelist}[1]{%1
+\begin{list}{}
+    {
+        \let\makelabel\namelistlabel
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{1.1\labelwidth}
+    }
+  }{%1
+\end{list}}
+
+\begin{document}
+
+\title{CITS3401 Data Exploration \& Mining Project 1}
+\subtitle{Healthy Burgers Fast Food Chain}
+\author{Aleck Greenham 20362627 \\ Ash Tyndall 20915779}
+\date{26th April 2013}
+
+\maketitle
+
+\section*{Abstract}
+
+This document details the design of a data cube suitable for the \textit{Healthy Burgers} franchise, a fast-food restaurant chain with stores in three countries, to aid management in its plans for improving sales and global expansion. Where the system requirements \cite{designdoc} was ambiguous or incomplete, reasonable assumptions were made and documented.
+
+\section*{Introduction}
+
+The client, Healthy Burgers, wishes to mine historical sales data from their nine stores spread across three countries across Australasia for the purpose aiding management in making decisions regarding global expansion of the franchise and to improve sales at existing restaurants. Each restaurant maintains a Online Transaction Processing (OLTP) database and there are aggregate databases at the state, country and worldwide levels. The company maintains data on sales, products, suppliers and restaurants. The purpose of this document is to detail the design of a data warehouse to extract data from these databases that will facilitate the mining needed by management.
+
+\section*{Limitations}
+
+\begin{thebibliography}{9}
+
+\bibitem{designdoc}
+	CITS3401 Data Exploration and Mining - Project 1,
+	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/proj1-2013.html
+		
+\end{thebibliography}
+
+\bibliographystyle{IEEEtranN}
+
+\end{document}

@@ -33,3 +33,8 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# LaTex Files
+
+Assignment1/doc/CITS3401Project01AleckGreenhamAshTyndall*
+!Assignment1/doc/CITS3401Project01AleckGreenhamAshTyndall.tex
