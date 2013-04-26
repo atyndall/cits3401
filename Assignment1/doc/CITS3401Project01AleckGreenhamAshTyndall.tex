@@ -53,6 +53,32 @@ The client, Healthy Burgers, wishes to mine historical sales data from their nin
 
 \section*{Limitations}
 
+It is outside the scope of this assessment to address the importing of data from the heterogeneous OLTP restaurant databases, including the cleaning of data. It shall be assumed that the data is complete, easily available and in the desired formats. It is acknowledged, however, that this would not be the case in real industry applications.
+
+A detailed interpretation of the results of the OLAP operations is also outside the scope of this assessment. It falls to management to fully interpret and make recommendations or decisions based on the data stored within the data warehouse.
+
+\section*{Assumptions}
+
+The following assumptions were made to:
+
+\begin{itemize}
+	\item To make the initial requirements \cite{designdoc} sufficiently complete
+	\item To make the design scenario as realistic as possible 
+	\item For the sake of simplicity or clarity, where realism was impossible, impractical or outside the scope of assessment
+\end{itemize}
+
+\begin{enumerate}
+	\item The type of ingredients are not important, only their supplier - i.e. the supplier is a proxy for how desirable the ingredients they supply are. 
+	\item High calorie burgers reported as tasting better is irrelevant information.
+	\item Sale periods are identified by their names and not by time ranges.
+	\item There are six combo meals globally.
+	\item There are 3 sales periods, each with 2 combo meals, and there only being a total of 6 combo meals to choose from. If it’s true that not all stores sell all the combo meals, then some combo meals must be shared between sales periods.
+	\item All non-combo products sold are not of interest (because they have no relation with any of the other data fields).
+	\item The same suppliers supply the ingredients for same combo meals, globally.
+	\item A promotional period has it’s own 6 combo meals (thus the combo meals change every 2 months).
+	\item The price of combo meals is set at the store level.
+\end{enumerate}
+
 \begin{thebibliography}{9}
 
 \bibitem{designdoc}
