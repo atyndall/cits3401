@@ -2,6 +2,7 @@
 
 \usepackage{titling}
 \usepackage{multirow}
+\usepackage{graphicx}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -78,7 +79,7 @@ Country & & Australia, New Zealand, Singapore \\
 
 \multirow{3}{3cm}{Store} & Interior Design  & 3 restaurants in each country \\
  	& Facility Type & 3 different interior designs \\
-	& & Facilities are 'dine in', 'drive through' and 'both' \\
+	& & Facilities are `dine in', `drive through' and `both' \\
 \hline
 
 \multirow{3}{3cm}{Combo Meal} & Price Category & 6 different combo meals \\
@@ -96,7 +97,7 @@ Country & & Australia, New Zealand, Singapore \\
 \hline
 
 \multirow{2}{3cm}{Sales Period} & & Has 2 combo meals \\ 
-	& & Can be 'breakfast', 'lunch' or 'dinner' \\
+	& & Can be `breakfast', `lunch' or `dinner' \\
 \hline	
 
 Promotional Period & & 6 promotional periods per year\\
@@ -138,7 +139,7 @@ A Star Schema was chosen as the design document \cite{designdoc} states Healthy 
 
 The time values have been split into a number of different dimensions to facilitate the comparison of different time periods against each other. An example query is comparing the total sales during each sales period (Breakfast, Lunch or Dinner) across each promotional period (1st promotion, 2nd promotion, etc.) to find out whether a promotion was particularly successful for a given sales period.
 
-The remaining data has been split up into dimensions to accommodate queries that would be reasonably expected to be of interest to Healthy Burgers management.
+The remaining data has been split up into dimensions to accommodate queries that would be reasonably expected to be of interest to Healthy Burgers management. 
 
 \begin{table}
 
@@ -218,11 +219,37 @@ The requirements state that Healthy Burgers is only interested in a single measu
 
 A Python script authored by Tyndall generated random data that fit within the restrictions imposed by the initial requirements and what was considered realistic. Product names were generated from random dictionary words; product attributes such as price and calorie values were randomly generated around a realistic anchor. The rest of the data was similarly generated.
 
-\subsection*{Data Cube}
+\section*{Interesting Scenarios}
 
-\section*{Interesting Snapshots}
+Scenarios were chosen for their perceived relevance and interest to Healthy Burgers management for their goals of expanding the Healthy Burgers franchise into other countries, and to replicate the success of existing stores and products where possible to increase sales and popularity.
 
+\begin{itemize}
+	\item Total sales in dollars per year by facility type
+	\item Total sales in dollars per year by interior design
+	\item Total sales in dollars per category of calories by price bracket
+	\item Total sales in dollars per products supplied by suppliers by year
+	\item Total sales in dollars per sales period by country
+\end{itemize}
 
+\subsection*{Total sales in dollars per year by facility type}
+
+It is of interest to Healthy Burgers to know the facility types positively correlated with large amounts of sales to aid in the decision of what facilities to offer in new restaurants. It is also useful for deciding whether to expand existing restaurants to offer new facilities, or whether to close branches of existing restaurants down because they do not warrant the additional cost or running them.
+
+\subsection*{Total sales in dollars per year by interior design}
+
+Similar to facility types, the correlation between interior designs and total sales can be used for deciding the layouts of new restaurants or whether or not to renovate existing branches to be consistent with the more profitable operations - if this is indeed deemed an important factor in their success.
+
+\subsection*{Total sales in dollars per category of calories by price bracket}
+
+If high calorie meals are indeed more popular - and the data should be consulted to confirm this suspicion - then it is of interest to Healthy Burgers to ascertain how much people are willing to pay per calorie when it comes in the form of the different meals offered in the combos. This can be used to anticipate the success and pricing of future meals offered at both existing and future restaurants, to maximise profits.
+
+\subsection*{Total sales in dollars per products supplied by suppliers by year}
+
+Essentially, this offers an indication of how much profit Healthy Burgers is making from the products whose ingredients are provided by each supplier. This will reveal any correlations or trends regarding consumer preference for the ingredients of one supplier over another. This may also be used to help shape the future pricing of products, identifying and meals or combos that are currently over or under priced.
+
+\subsection*{Total sales in dollars per sales period by country}
+
+Total sales per country is of obvious utility for expanding the franchises stores. Countries may be identified as having an abnormally large sales and prove a sound choice for future restaurants. Alternatively, it may be decided that these countries are saturated in terms of similar restaurants and future expansion should take place elsewhere.
 
 \begin{thebibliography}{9}
 
@@ -234,4 +261,19 @@ A Python script authored by Tyndall generated random data that fit within the re
 
 \bibliographystyle{IEEEtranN}
 
+\appendix
+\section{Total sales in dollars per year by facility type} 
+\includegraphics{diagrams/FacilitiesVsYears}
+
+\section{Total sales in dollars per year by interior design}
+\includegraphics{diagrams/DesignsVsYears}
+
+\section{Total sales in dollars per category of calories by price bracket}
+\includegraphics{diagrams/PriceVsCalories}
+
+\section{Total sales in dollars per products supplied by suppliers by year}
+\includegraphics{diagrams/SuppliersVsYears}
+
+\section{Total sales in dollars per sales period by country}
+\includegraphics{diagrams/CountryVsSalesPeriod}
 \end{document}
