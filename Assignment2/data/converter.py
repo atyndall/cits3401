@@ -22,14 +22,14 @@ append = '''@relation poker_hand
 @data
 '''
 
-suite_map = {
+suite_map = { # Initial value : New value
   1: 'H',
   2: 'S',
   3: 'D',
   4: 'C',
 }
 
-class_map = {
+class_map = { # Initial value : New value
   0: 0,
   1: 1,
   2: 2,
@@ -42,7 +42,7 @@ class_map = {
   9: 'RF',
 }
 
-map = {
+map = { # Column number : Mapping algorithm (None == no mapping)
   0: suite_map,
   1: None,
   2: suite_map,
