@@ -69,21 +69,21 @@ The following assumptions were made:
 
 \subsection*{Data Restructing}
 
-The originally provided data was in CSV format, while Weka only easily supports its own ARFF format. The tool linked to in the design document \cite{arffconv} unfortunately could not handle the large testing set (presenting error 500), so a suitable Python replacement was devised; \texttt{csv_convertor.py}.
+The originally provided data was in CSV format, while Weka only easily supports its own ARFF format. The tool linked to in the design document \cite{arffconv} unfortunately could not handle the large testing set (presenting error 500), so a suitable Python replacement was devised; \texttt{csv\_convertor.py}.
 
-Furthermore, the initial data produced had all of its attributes described as "numeric" in the produced ARFF format. Noting that the explanation of attributes document \cite{expattr} described the "suit of card" and "class of hand" attribute as "ordinal" rather than "numerical" (as the rank of card was), we elected to modify the data set so that attributes C1 through C5 and CLASS were represented in Weka as a "nominal specification" (the Weka form of an enumeration) instead.
+Furthermore, the initial data produced had all of its attributes described as ``numeric'' in the produced ARFF format. Noting that the explanation of attributes document \cite{expattr} described the ``suit of card'' and ``class of hand'' attribute as ``ordina'' rather than ``numerical'' (as the rank of card was), we elected to modify the data set so that attributes C1 through C5 and CLASS were represented in Weka as a ``nominal specification'' (the Weka form of an enumeration) instead.
 
 The Python script was thusly modified to map certain numbers to representative letter combinations to assist in the interpretation of the enumeration.
 
 \subsection*{Creating Smaller Training Sets}
 
-As per the assignment instructions, we devised a program that creates smaller training sets that have equivalent ratios to the larger training set. This program is described in \texttt{training_ratio_splitter.py}. The program functions by counting the number of Royal Flushes present in the larger training set (5), which is the lowest probable action, and divides the training set into a number of different smaller sets that each contain one Royal Flush.
+As per the assignment instructions, we devised a program that creates smaller training sets that have equivalent ratios to the larger training set. This program is described in \texttt{training\_ratio\_splitter.py}. The program functions by counting the number of Royal Flushes present in the larger training set (5), which is the lowest probable action, and divides the training set into a number of different smaller sets that each contain one Royal Flush.
 
 The ratio of classes is then calculated against Royal Flushes, and a segment of each class equivalent to that ratio is placed in each file. Due to the fact that the training data set does not divide perfectly into integers, some small amount of card plays are discarded (36 of 25K). We do not anticipate this causing any issue.
 
 \subsection*{Splitting Testing Set}
 
-As per the assignment instructions, we devised a program that randomly splits the test data into a configurable amount of sets with a configurable amount of elements; \texttt{test_splitter.py}. We choose to generate with the recommanded amount of sets (10) and elements (5000).
+As per the assignment instructions, we devised a program that randomly splits the test data into a configurable amount of sets with a configurable amount of elements; \texttt{test\_splitter.py}. We choose to generate with the recommanded amount of sets (10) and elements (5000).
 
 To prevent any result ordering bias, we import the entire test set into memory, randomise it, then export the required number of elements to their own file in a subfolder.
 
