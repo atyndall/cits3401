@@ -1,0 +1,104 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{titling}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{caption}
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+  
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\rightmargin}{0.5cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 0pt
+\parskip 5pt
+\pagestyle{plain}
+\usepackage[numbers]{natbib}
+\usepackage{capt-of}
+\usepackage{graphicx,url}
+
+\begin{document}
+
+\title{CITS3401 Data Exploration \& Mining Project 2}
+\subtitle{Classifying Poker hands using Weka}
+\author{Aleck Greenham 20362627 \\ Ash Tyndall 20915779}
+\date{27th May 2013}
+
+\maketitle
+
+\section*{Abstract}
+
+This document details the analysis of how different machine learning algorithms handle the classification of different Poker "hands" (collections of 5 playing cards) as one of the nine well-defined classes. Where the analysis requirements \cite{designdoc} were ambiguous or incomplete, reasonable assuptions were made and documented.
+
+\section*{Introduction}
+
+
+
+\section*{Limitations}
+
+
+\section*{Requirements}
+
+
+\subsection*{Assumptions}
+
+The following assumptions were made:
+
+\begin{itemize}
+	\item item	
+\end{itemize}
+
+\begin{enumerate}
+	\item item
+\end{enumerate}
+
+
+\section*{Implementation}
+
+\subsection*{Data Restructing}
+
+The originally provided data was in CSV format, while Weka only easily supports its own ARFF format. The tool linked to in the design document \cite{arffconv} unfortunately could not handle the large testing set (presenting error 500), so a suitable Python replacement was devised.
+
+Furthermore, the initial data produced had all of its attributes described as "numeric" in the produced ARFF format. Noting that the explanation of attributes document \cite{expattr} described the "suit of card" and "class of hand" attribute as "ordinal" rather than "numerical" (as the rank of card was), we elected to modify the data set so that attributes C1 through C5 and CLASS were represented in Weka as a "nominal specification" (the Weka form of an enumeration) instead.
+
+The Python script was thusly modified to map certain numbers to representative letter combinations to assist in the interpretation of the enumeration.
+
+\subsection*{Data Import}
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{designdoc}
+	CITS3401 Data Exploration and Mining - Project 2,
+	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/proj2-2013.html
+
+\bibitem{arffconv}
+	Online CSV to ARFF conversion tool,
+	http://slavnik.fe.uni-lj.si/markot/csv2arff/csv2arff.php
+
+\bibitem{expattr}
+	Explanation of Poker Hand data attributes,
+	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/poker-hand.names
+
+\bibitem{arffinfo}
+	Attribute-Relation File Format,
+	http://www.cs.waikato.ac.nz/ml/weka/arff.html
+
+\end{thebibliography}
+
+\bibliographystyle{IEEEtranN}
+
+\end{document}
