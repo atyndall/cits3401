@@ -4,6 +4,7 @@
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{amsmath}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -40,7 +41,7 @@
 
 \section*{Abstract}
 
-This document details the analysis of how different machine learning algorithms handle the classification of different Poker "hands" (collections of 5 playing cards) as one of the nine well-defined classes. Where the analysis requirements \cite{designdoc} were ambiguous or incomplete, reasonable assuptions were made and documented.
+This document details the analysis of how different data classification algorithms handle the classification of different Poker "hands" (collections of 5 playing cards) as one of the nine well-defined classes. Where the analysis requirements \cite{designdoc} were ambiguous or incomplete, reasonable assumptions were made and documented.
 
 \section*{Introduction}
 
@@ -101,7 +102,44 @@ To prevent any result ordering bias, we import the entire test set into memory, 
 
 \subsection*{Data Import}
 
+\section*{Classification Method Selection}
 
+Classification methods were selected from those discussed in lectures based on how suitable each was for the classification necessary to correctly identify Poker hands. The in-program documentation of the classification methods (accessibly by right-clicking on the classifier name and selecting properties from the resultant context menu) was also taken into consideration. 
+
+\subsection*{Bayesian Classification}
+
+The Na\"ive Bayesian Classifier was chosen as a base classification to be used for comparison with the other classifiers tested. The classifier is based on Bayes' Theorem:
+
+\begin{align*}
+	P(A|B) = \frac{P(B|A) \times P(A)}{P(B)}
+\end{align*}
+
+Where:
+
+\begin{itemize}
+	\item $P(A|B)$ is the probability that an element in a set B is also in set A
+	\item $P(B|A)$ is the probability that an element in a set A is also in set B
+	\item $P(A)$ is the probability that an element from the universal set is also in set A
+	\item $P(B)$ is the probability that an element from the universal set is also in set B
+\end{itemize}
+
+When applied to classification, $P(A|B)$ becomes the probability that a record belongs to a particular class, A. Na\"ive Bayesian Classification calculates the probability for every record of it belonging to each of the available classes, and places it in the most probable class.	
+
+To reduce the computational load of calculating the Bayesian classification, record attributes are assumed to be independent. This is an appropriate assumption when the attributes of a playing hand are the cards that it comprises of. As the same card cannot appear more than once in any given hand, each attribute must be unique for that hand. However, each attribute may have 52 possible values, so excluding 4 other cards is a sufficiently small dependence to justify the approximation.
+
+\subsection*{Decision Tree Classification}
+
+Decision tree classification algorithms iteratively divide records based on attributes selected to increase information gain, until a given threshold is reached. Decision tree classification algorithms differ in the way they calculate information gain, and thus select attributed to use for classification.
+
+Attributes are assumed to be, or converted to, categorical values for use with decision tree classification. This is suitable for classifying poker hands as the attributes are categorical values (face value and suite).
+
+Gain Ratio(C4.5)
+J48 in Weka
+
+
+\subsection*{Rule-based Classification}
+
+Backpropagation (Multilayer Percepeptron in Weka)
 
 \begin{thebibliography}{9}
 
