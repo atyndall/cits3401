@@ -143,6 +143,8 @@ The aim of the first experiment was to evaluate how effective each of the 3 clas
 
 The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
 
+Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 Poker hands each and the results were averaged. 
+
 \subsection*{Results}
 
 \subsubsection*{Na\"ive Bayes}
@@ -184,6 +186,7 @@ Weighted Avg.    0.491     0.497      0.421     0.491     0.374      0.501
      4     1     0     0     0     0     0     0     0     0 |     j = RF
 \end{verbatim}
 
+When the classifier was 
 \subsubsection*{Decision Tree}
 
 The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. It was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). However, it still failed to differentiate these from the more rare hands. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
