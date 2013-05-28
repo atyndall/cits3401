@@ -2,8 +2,8 @@
 import os
 import random
 
-IN_FILE = 'poker-hand-testing.arff'
-OUT_DIR = 'poker-hand-testing-split'
+IN_FILE = 'poker-hand-testing-allnominal-scsort.arff'
+OUT_DIR = ('poker-hand-testing-split','allnominal','scsort','%d-%s')
 
 SETS = 10
 VALUES_PER_SET = 5000
@@ -34,7 +34,7 @@ with open(IN_FILE, 'r') as f:
   random.shuffle(list)
   
   for i in range(SETS):
-    path = os.path.join(OUT_DIR, "%d-%s" % (i, IN_FILE))
+    path = os.path.join(*OUT_DIR) % (i, IN_FILE)
     with open(path, 'w') as outf:
       outf.write("\n".join(header) + "\n")
       sublist = list[(i*VALUES_PER_SET):((i*VALUES_PER_SET)+VALUES_PER_SET)]

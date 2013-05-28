@@ -2,8 +2,8 @@
 from collections import defaultdict
 import os
 
-IN_FILE = 'poker-hand-training.arff'
-OUT_DIR = 'poker-hand-training-split'
+IN_FILE = 'poker-hand-training-allnominal-cssort.arff'
+OUT_DIR = ('poker-hand-training-split','allnominal','cssort','%d-%s')
 
 cdict = defaultdict(list) # Contains all pairs, indexed by class
 
@@ -42,7 +42,7 @@ with open(IN_FILE, 'r') as f:
       ratios[type] = lv/num_rf
       
   for i in range(num_rf):
-    path = os.path.join(OUT_DIR, "%d-%s" % (i, IN_FILE))
+    path = os.path.join(*OUT_DIR) % (i, IN_FILE)
     with open(path, 'w') as outf:
       outf.write("\n".join(header) + "\n")
       for type, number in ratios.iteritems():
