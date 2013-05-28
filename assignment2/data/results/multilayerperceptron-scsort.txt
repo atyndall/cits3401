@@ -4730,3 +4730,600 @@ Weighted Avg.    0.888     0.061      0.879     0.888     0.882      0.935
      2     0     0     0     1     2     0     0     0     0 |     i = SF
      0     0     0     0     1     4     0     0     0     0 |     j = RF
 
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/0
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4273               85.46   %
+Incorrectly Classified Instances       727               14.54   %
+Kappa statistic                          0.7425
+Mean absolute error                      0.0264
+Root mean squared error                  0.1382
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.998     0.084      0.919     0.998     0.957      0.997    0
+                 0.811     0.093      0.869     0.811     0.839      0.82     1
+                 0.162     0.015      0.357     0.162     0.223      0.987    2
+                 0.308     0.015      0.333     0.308     0.32       0.82     3
+                 0         0.012      0         0         0          0.696    S
+                 0.857     0.001      0.667     0.857     0.75       1        F
+                 0         0.008      0         0         0          0.403    FH
+                 0         0          0         0         0          0.818    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.855     0.082      0.851     0.855     0.85       0.914
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2442    0    0    1    5    0    0    0    0    0 |    a = 0
+  194 1749   66   60   48    3   36    0    0    0 |    b = 1
+    0  187   40    8    9    0    3    0    0    0 |    c = 2
+    3   73    5   36    0    0    0    0    0    0 |    d = 3
+   17    0    0    0    0    0    0    0    0    0 |    e = S
+    1    0    0    0    0    6    0    0    0    0 |    f = F
+    0    4    1    2    0    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/1
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4382               87.64   %
+Incorrectly Classified Instances       618               12.36   %
+Kappa statistic                          0.7765
+Mean absolute error                      0.0232
+Root mean squared error                  0.1294
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.998     0.078      0.93      0.998     0.963      0.996    0
+                 0.837     0.078      0.885     0.837     0.86       0.846    1
+                 0.201     0.01       0.457     0.201     0.279      0.986    2
+                 0.275     0.015      0.286     0.275     0.28       0.819    3
+                 0.105     0.008      0.045     0.105     0.063      0.629    S
+                 0.875     0          1         0.875     0.933      1        F
+                 0         0.007      0         0         0          0.226    FH
+                 0         0          0         0         0          0.266    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.876     0.073      0.873     0.876     0.872      0.926
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2550    0    0    0    4    0    0    0    0    0 |    a = 0
+  169 1751   50   65   32    0   26    0    0    0 |    b = 1
+    0  150   42    7    6    0    4    0    0    0 |    c = 2
+    4   72    0   30    0    0    3    0    0    0 |    d = 3
+   17    0    0    0    2    0    0    0    0    0 |    e = S
+    1    0    0    0    0    7    0    0    0    0 |    f = F
+    0    5    0    1    0    0    0    0    0    0 |    g = FH
+    0    0    0    2    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/2
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4353               87.06   %
+Incorrectly Classified Instances       647               12.94   %
+Kappa statistic                          0.7673
+Mean absolute error                      0.0237
+Root mean squared error                  0.1324
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.998     0.078      0.928     0.998     0.962      0.995    0
+                 0.83      0.082      0.883     0.83      0.856      0.838    1
+                 0.18      0.012      0.4       0.18      0.248      0.99     2
+                 0.274     0.015      0.279     0.274     0.276      0.814    3
+                 0         0.008      0         0         0          0.627    S
+                 1         0.001      0.636     1         0.778      1        F
+                 0         0.008      0         0         0          0.113    FH
+                 0         0          0         0         0          0.064    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.871     0.075      0.867     0.871     0.866      0.921
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2499    0    0    1    3    0    0    0    0    0 |    a = 0
+  172 1780   53   70   35    4   31    0    0    0 |    b = 1
+    0  161   38    3    2    0    7    0    0    0 |    c = 2
+    1   71    2   29    0    0    3    0    0    0 |    d = 3
+   22    0    0    0    0    0    0    0    0    0 |    e = S
+    0    0    0    0    0    7    0    0    0    0 |    f = F
+    0    3    2    0    0    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/3
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4333               86.66   %
+Incorrectly Classified Instances       667               13.34   %
+Kappa statistic                          0.7624
+Mean absolute error                      0.0245
+Root mean squared error                  0.1333
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.996     0.072      0.934     0.996     0.964      0.996    0
+                 0.825     0.085      0.873     0.825     0.848      0.835    1
+                 0.192     0.012      0.446     0.192     0.269      0.988    2
+                 0.31      0.017      0.298     0.31      0.304      0.805    3
+                 0.158     0.009      0.063     0.158     0.09       0.702    S
+                 1         0          0.846     1         0.917      1        F
+                 0         0.011      0         0         0          0.265    FH
+                 0         0          0         0         0          0.728    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.867     0.073      0.866     0.867     0.863      0.922
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2530    0    0    3    6    0    0    0    0    0 |    a = 0
+  160 1708   55   71   37    2   38    0    0    0 |    b = 1
+    0  166   45   11    2    0   10    0    0    0 |    c = 2
+    2   73    0   36    0    0    5    0    0    0 |    d = 3
+   16    0    0    0    3    0    0    0    0    0 |    e = S
+    0    0    0    0    0   11    0    0    0    0 |    f = F
+    0    8    1    0    0    0    0    0    0    0 |    g = FH
+    0    1    0    0    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/4
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4324               86.48   %
+Incorrectly Classified Instances       676               13.52   %
+Kappa statistic                          0.7586
+Mean absolute error                      0.0247
+Root mean squared error                  0.1347
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.997     0.075      0.931     0.997     0.963      0.996    0
+                 0.829     0.085      0.876     0.829     0.852      0.834    1
+                 0.175     0.01       0.462     0.175     0.254      0.988    2
+                 0.178     0.017      0.175     0.178     0.176      0.778    3
+                 0         0.012      0         0         0          0.654    S
+                 0.923     0.001      0.75      0.923     0.828      1        F
+                 0         0.009      0         0         0          0.185    FH
+                 0         0          0         0         0          0.643    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.865     0.074      0.865     0.865     0.861      0.92 
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2512    0    0    1    7    0    0    0    0    0 |    a = 0
+  163 1740   46   72   44    2   31    0    0    0 |    b = 1
+    0  166   42    9    9    2   12    0    0    0 |    c = 2
+    8   71    2   18    0    0    2    0    0    0 |    d = 3
+   15    0    0    0    0    0    0    0    0    0 |    e = S
+    0    0    0    0    1   12    0    0    0    0 |    f = F
+    0    9    1    2    0    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/5
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4316               86.32   %
+Incorrectly Classified Instances       684               13.68   %
+Kappa statistic                          0.7557
+Mean absolute error                      0.025 
+Root mean squared error                  0.1354
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.999     0.082      0.924     0.999     0.96       0.995    0
+                 0.826     0.085      0.876     0.826     0.851      0.837    1
+                 0.153     0.012      0.391     0.153     0.22       0.983    2
+                 0.214     0.017      0.206     0.214     0.21       0.785    3
+                 0.08      0.009      0.041     0.08      0.054      0.66     S
+                 1         0.001      0.8       1         0.889      1        F
+                 0.111     0.008      0.024     0.111     0.039      0.179    FH
+                 0         0          0         0         0          0.521    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.863     0.078      0.857     0.863     0.856      0.92 
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2498    0    0    0    2    0    0    0    0    0 |    a = 0
+  182 1745   54   70   35    3   23    0    0    0 |    b = 1
+    0  167   36   13   10    0   10    0    0    0 |    c = 2
+    1   72    0   22    0    0    8    0    0    0 |    d = 3
+   23    0    0    0    2    0    0    0    0    0 |    e = S
+    0    0    0    0    0   12    0    0    0    0 |    f = F
+    0    6    2    0    0    0    1    0    0    0 |    g = FH
+    0    1    0    2    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/6
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4309               86.18   %
+Incorrectly Classified Instances       691               13.82   %
+Kappa statistic                          0.7556
+Mean absolute error                      0.0255
+Root mean squared error                  0.136 
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.998     0.077      0.929     0.998     0.962      0.997    0
+                 0.819     0.087      0.87      0.819     0.844      0.83     1
+                 0.215     0.012      0.496     0.215     0.299      0.985    2
+                 0.319     0.018      0.294     0.319     0.306      0.85     3
+                 0.105     0.011      0.034     0.105     0.051      0.705    S
+                 1         0          0.917     1         0.957      1        F
+                 0         0.008      0         0         0          0.274    FH
+                 0         0          0         0         0          0.63     4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.862     0.076      0.862     0.862     0.858      0.921
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2502    0    0    1    5    0    0    0    0    0 |    a = 0
+  174 1701   56   73   45    1   27    0    0    0 |    b = 1
+    0  179   56   12    6    0    8    0    0    0 |    c = 2
+    1   72    0   37    0    0    6    0    0    0 |    d = 3
+   17    0    0    0    2    0    0    0    0    0 |    e = S
+    0    0    0    0    0   11    0    0    0    0 |    f = F
+    0    3    1    2    1    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/7
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4330               86.6    %
+Incorrectly Classified Instances       670               13.4    %
+Kappa statistic                          0.7614
+Mean absolute error                      0.0249
+Root mean squared error                  0.1339
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.998     0.076      0.927     0.998     0.961      0.996    0
+                 0.822     0.081      0.886     0.822     0.853      0.828    1
+                 0.187     0.013      0.415     0.187     0.258      0.981    2
+                 0.297     0.016      0.257     0.297     0.276      0.791    3
+                 0         0.009      0         0         0          0.674    S
+                 1         0.001      0.75      1         0.857      1        F
+                 0         0.012      0         0         0          0.168    FH
+                 0         0          0         0         0          ?        4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.866     0.074      0.869     0.866     0.864      0.916
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2458    0    0    0    5    0    0    0    0    0 |    a = 0
+  179 1789   60   69   35    3   42    0    0    0 |    b = 1
+    0  163   44    9    4    1   14    0    0    0 |    c = 2
+    0   60    1   27    0    0    3    0    0    0 |    d = 3
+   14    0    0    0    0    0    0    0    0    0 |    e = S
+    0    0    0    0    0   12    0    0    0    0 |    f = F
+    0    7    1    0    0    0    0    0    0    0 |    g = FH
+    0    0    0    0    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/8
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4363               87.26   %
+Incorrectly Classified Instances       637               12.74   %
+Kappa statistic                          0.7711
+Mean absolute error                      0.0235
+Root mean squared error                  0.1305
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.998     0.077      0.93      0.998     0.963      0.995    0
+                 0.834     0.083      0.88      0.834     0.856      0.845    1
+                 0.204     0.01       0.495     0.204     0.289      0.985    2
+                 0.284     0.014      0.29      0.284     0.287      0.814    3
+                 0.043     0.008      0.024     0.043     0.031      0.619    S
+                 1         0          0.818     1         0.9        1        F
+                 0         0.009      0         0         0          0.039    FH
+                 0         0          0         0         0          0.932    4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.873     0.075      0.871     0.873     0.868      0.925
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2520    0    0    1    5    0    0    0    0    0 |    a = 0
+  168 1757   47   63   30    2   39    0    0    0 |    b = 1
+    0  166   47    6    6    0    5    0    0    0 |    c = 2
+    0   71    1   29    0    0    1    0    0    0 |    d = 3
+   22    0    0    0    1    0    0    0    0    0 |    e = S
+    0    0    0    0    0    9    0    0    0    0 |    f = F
+    0    3    0    0    0    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/testing/allnominal/scsort/9
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4374               87.48   %
+Incorrectly Classified Instances       626               12.52   %
+Kappa statistic                          0.773 
+Mean absolute error                      0.0228
+Root mean squared error                  0.1282
+Total Number of Instances             5000     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.997     0.079      0.931     0.997     0.963      0.996    0
+                 0.841     0.081      0.88      0.841     0.86       0.848    1
+                 0.153     0.011      0.398     0.153     0.221      0.976    2
+                 0.28      0.014      0.274     0.28      0.277      0.849    3
+                 0.053     0.008      0.025     0.053     0.034      0.661    S
+                 1         0          1         1         1          1        F
+                 0         0.007      0         0         0          0.146    FH
+                 0         0          0         0         0          ?        4
+                 0         0          0         0         0          ?        SF
+                 0         0          0         0         0          ?        RF
+Weighted Avg.    0.875     0.075      0.868     0.875     0.868      0.928
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2568    0    0    2    7    0    0    0    0    0 |    a = 0
+  173 1736   49   50   30    0   27    0    0    0 |    b = 1
+    0  169   35   17    2    0    6    0    0    0 |    c = 2
+    0   59    4   26    0    0    4    0    0    0 |    d = 3
+   18    0    0    0    1    0    0    0    0    0 |    e = S
+    0    0    0    0    0    8    0    0    0    0 |    f = F
+    0    9    0    0    0    0    0    0    0    0 |    g = FH
+    0    0    0    0    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    0    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/training/allnominal/scsort/0
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4437               88.7755 %
+Incorrectly Classified Instances       561               11.2245 %
+Kappa statistic                          0.8007
+Mean absolute error                      0.0205
+Root mean squared error                  0.1184
+Total Number of Instances             4998     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.999     0.072      0.932     0.999     0.965      0.998    0
+                 0.845     0.065      0.906     0.845     0.874      0.848    1
+                 0.174     0.013      0.4       0.174     0.243      0.985    2
+                 0.922     0.008      0.701     0.922     0.797      0.97     3
+                 0.278     0.009      0.1       0.278     0.147      0.684    S
+                 1         0.001      0.625     1         0.769      1        F
+                 0         0.008      0         0         0          0.314    FH
+                 0         0          0         0         0          0.922    4
+                 0         0          0         0         0          0.929    SF
+                 0         0          0         0         0          0.893    RF
+Weighted Avg.    0.888     0.064      0.885     0.888     0.883      0.931
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2496    0    0    0    2    0    0    0    0    0 |    a = 0
+  169 1790   60   34   34    3   29    0    0    0 |    b = 1
+    0  174   42    5    9    0   11    0    0    0 |    c = 2
+    0    6    2   94    0    0    0    0    0    0 |    d = 3
+   12    0    0    0    5    1    0    0    0    0 |    e = S
+    0    0    0    0    0   10    0    0    0    0 |    f = F
+    0    6    1    0    0    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    1    0    0    0    0 |    i = SF
+    0    0    0    0    0    1    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/training/allnominal/scsort/1
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4439               88.8155 %
+Incorrectly Classified Instances       559               11.1845 %
+Kappa statistic                          0.8011
+Mean absolute error                      0.02  
+Root mean squared error                  0.1175
+Total Number of Instances             4998     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 1         0.073      0.932     1         0.965      0.997    0
+                 0.846     0.066      0.905     0.846     0.874      0.849    1
+                 0.178     0.013      0.402     0.178     0.247      0.985    2
+                 0.902     0.009      0.676     0.902     0.773      0.97     3
+                 0.222     0.009      0.085     0.222     0.123      0.781    S
+                 1         0.001      0.769     1         0.87       1        F
+                 0         0.007      0         0         0          0.317    FH
+                 0         0          0         0         0          0.173    4
+                 0         0          0         0         0          0.292    SF
+                 0         0          0         0         0          0.934    RF
+Weighted Avg.    0.888     0.065      0.884     0.888     0.883      0.931
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2497    0    0    0    1    0    0    0    0    0 |    a = 0
+  168 1793   62   32   35    2   27    0    0    0 |    b = 1
+    0  175   43   10    6    0    7    0    0    0 |    c = 2
+    0    9    1   92    0    0    0    0    0    0 |    d = 3
+   14    0    0    0    4    0    0    0    0    0 |    e = S
+    0    0    0    0    0   10    0    0    0    0 |    f = F
+    0    5    1    1    0    0    0    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    1    0    0    0    0    0 |    i = SF
+    0    0    0    0    0    1    0    0    0    0 |    j = RF
+
+
+=== Re-evaluation on test set ===
+
+User supplied test set
+Relation:     poker_hand/training/allnominal/scsort/2
+Instances:     unknown (yet). Reading incrementally
+Attributes:   11
+
+=== Summary ===
+
+Correctly Classified Instances        4443               88.8956 %
+Incorrectly Classified Instances       555               11.1044 %
+Kappa statistic                          0.8026
+Mean absolute error                      0.02  
+Root mean squared error                  0.1171
+Total Number of Instances             4998     
+
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 1         0.073      0.932     1         0.965      0.998    0
+                 0.844     0.067      0.903     0.844     0.872      0.844    1
+                 0.22      0.013      0.461     0.22      0.298      0.989    2
+                 0.873     0.006      0.754     0.873     0.809      0.942    3
+                 0.222     0.01       0.075     0.222     0.113      0.749    S
+                 1         0.001      0.714     1         0.833      1        F
+                 0.143     0.007      0.026     0.143     0.044      0.335    FH
+                 0         0          0         0         0          0.103    4
+                 0         0          0         0         0          0.931    SF
+                 0         0          0         0         0          0.363    RF
+Weighted Avg.    0.889     0.065      0.888     0.889     0.885      0.929
+
+=== Confusion Matrix ===
+
+    a    b    c    d    e    f    g    h    i    j   <-- classified as
+ 2498    0    0    0    0    0    0    0    0    0 |    a = 0
+  168 1788   62   23   43    2   33    0    0    0 |    b = 1
+    0  176   53    3    5    0    4    0    0    0 |    c = 2
+    1   12    0   89    0    0    0    0    0    0 |    d = 3
+   13    0    0    0    4    1    0    0    0    0 |    e = S
+    0    0    0    0    0   10    0    0    0    0 |    f = F
+    0    4    0    2    0    0    1    0    0    0 |    g = FH
+    0    0    0    1    0    0    0    0    0    0 |    h = 4
+    0    0    0    0    0    1    0    0    0    0 |    i = SF
+    0    0    0    0    1    0    0    0    0    0 |    j = RF
+
