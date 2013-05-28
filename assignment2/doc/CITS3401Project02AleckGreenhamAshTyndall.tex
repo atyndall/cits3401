@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{amsmath}
+\usepackage{appendix}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -132,17 +133,137 @@ The ratio of classes is then calculated against Royal Flushes, and a segment of 
 
 \texttt{test\_splitter.py} randomly splits the test data into a configurable amount of sets with a configurable amount of elements. Ten sets of 5000 elements were generated in this instance. To prevent any result ordering bias, the entire test set is randomised in memory and then exported into the specified number of elements in their own file.
 
-\section*{Experimentation}
+\section*{Experiment 1}
 
-\subsection*{Initial Experiment}
-
-\subsubection*{Aim}
+\subsection*{Aim}
 
 The aim of the first experiment was to evaluate how effective each of the 3 classifiers are a categorising poker hands, as they formatted in the original training and test data sets. Each classifiers' classification error rate was calculated in order to compare the efficacy of the different methods.
 
-\subsubsection*{Methodology}
+\subsection*{Methodology}
 
-The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} and tested using 10-fold cross-validation.
+The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
+
+\subsection*{Results}
+
+\subsubsection*{Na\"ive Bayes}
+
+Using the 10-fold cross-validation, the na\"ive bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The results show the method classified all hands as either being a hand worth nothing (0), or 1 pair (1). 
+
+The strong favouring for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely and thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not allow for the improbable occasions where these cards belong to a more valuable hand.
+
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.921     0.929      0.497     0.921     0.646      0.503    0
+                 0.072     0.077      0.408     0.072     0.122      0.497    1
+                 0         0          0         0         0          0.508    2
+                 0         0          0         0         0          0.474    3
+                 0         0          0         0         0          0.667    S
+                 0         0          0         0         0          0.482    F
+                 0         0          0         0         0          0.56     FH
+                 0         0          0         0         0          0.715    4
+                 0         0          0         0         0          0.164    SF
+                 0         0          0         0         0          0.381    RF
+Weighted Avg.    0.491     0.497      0.421     0.491     0.374      0.501
+\end{verbatim}
+
+\begin{verbatim}
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j   <-- classified as
+ 11510   983     0     0     0     0     0     0     0     0 |     a = 0
+  9838   761     0     0     0     0     0     0     0     0 |     b = 1
+  1129    77     0     0     0     0     0     0     0     0 |     c = 2
+   480    33     0     0     0     0     0     0     0     0 |     d = 3
+    87     6     0     0     0     0     0     0     0     0 |     e = S
+    52     2     0     0     0     0     0     0     0     0 |     f = F
+    33     3     0     0     0     0     0     0     0     0 |     g = FH
+     6     0     0     0     0     0     0     0     0     0 |     h = 4
+     4     1     0     0     0     0     0     0     0     0 |     i = SF
+     4     1     0     0     0     0     0     0     0     0 |     j = RF
+\end{verbatim}
+
+\subsubsection*{Decision Tree}
+
+The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. It was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). However, it still failed to differentiate these from the more rare hands. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
+
+It is interesting to note a large dip in precision for two pairs (2). From the confusion matrix it can be seen these are often misclassified as single pairs (1). This may be because it is much easier to determine the presence of a single pair than it is to confirm the presence of 2 pairs.
+
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.808     0.555      0.592     0.808     0.684      0.656    0
+                 0.403     0.242      0.55      0.403     0.465      0.588    1
+                 0.016     0.005      0.129     0.016     0.028      0.657    2
+                 0.004     0.001      0.065     0.004     0.007      0.645    3
+                 0.011     0.001      0.05      0.011     0.018      0.569    S
+                 0         0          0         0         0          0.534    F
+                 0         0          0         0         0          0.623    FH
+                 0         0          0         0         0          0.491    4
+                 0         0          0         0         0          0.496    SF
+                 0         0          0         0         0          0.498    RF
+Weighted Avg.    0.575     0.38       0.537     0.575     0.54       0.626
+\end{verbatim}
+
+\begin{verbatim}
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j   <-- classified as
+ 10100  2349    25     7     9     3     0     0     0     0 |     a = 0
+  6207  4268    92    20     8     3     1     0     0     0 |     b = 1
+   461   723    19     2     0     0     1     0     0     0 |     c = 2
+   165   337     9     2     0     0     0     0     0     0 |     d = 3
+    60    31     1     0     1     0     0     0     0     0 |     e = S
+    45     9     0     0     0     0     0     0     0     0 |     f = F
+     5    30     1     0     0     0     0     0     0     0 |     g = FH
+     0     6     0     0     0     0     0     0     0     0 |     h = 4
+     4     0     0     0     1     0     0     0     0     0 |     i = SF
+     4     0     0     0     1     0     0     0     0     0 |     j = RF
+\end{verbatim}
+
+\subsection*{Neural Network}
+
+Neural Networks achieved a surprising leap in correct classification rate with 93.43\% and a root mean squared error of 0.07 when run using 10-fold validation, compared to that of the other two classification algorithms. This is probably due to the fact that calibrated attribute weightings can be much more sensitive to rare hands than probabilities.
+
+Of note is the large increase in precision for 3 of a Kind (3), which may be it can be satisfied in relatively few ways, and involves only 3 cards. The precision for hands than involve 4 or more cards is significantly lower. For example, 2 pairs (2) is often misclassified as a single pair (1). This is also consistent with hands involving a smaller number of cards having a higher precision classification rate. 
+
+The execution time was considerably longer than that of the other two classification algorithms, yet in this case the huge increase in precision would justify the longer run time.
+                 
+\begin{verbatim}
+=== Detailed Accuracy By Class ===
+
+               TP Rate   FP Rate   Precision   Recall  F-Measure   ROC Area  Class
+                 0.997     0.012      0.988     0.997     0.992      0.996    0
+                 0.99      0.094      0.886     0.99      0.935      0.99     1
+                 0.017     0.002      0.28      0.017     0.033      0.999    2
+                 0.739     0.001      0.913     0.739     0.817      0.926    3
+                 0.086     0.001      0.182     0.086     0.117      0.666    S
+                 0.148     0          0.471     0.148     0.225      0.743    F
+                 0         0          0         0         0          0.034    FH
+                 0         0          0         0         0          0.324    4
+                 0         0          0         0         0          0.334    SF
+                 0         0          0         0         0          0.639    RF
+Weighted Avg.    0.934     0.046      0.903     0.934     0.911      0.988
+\end{verbatim}
+
+
+\begin{verbatim}
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j   <-- classified as
+ 12453     2     0     0    30     8     0     0     0     0 |     a = 0
+    18 10497    54    27     2     1     0     0     0     0 |     b = 1
+     0  1185    21     0     0     0     0     0     0     0 |     c = 2
+     1   133     0   379     0     0     0     0     0     0 |     d = 3
+    84     1     0     0     8     0     0     0     0     0 |     e = S
+    43     1     0     0     2     8     0     0     0     0 |     f = F
+     0    33     0     3     0     0     0     0     0     0 |     g = FH
+     0     0     0     6     0     0     0     0     0     0 |     h = 4
+     3     0     0     0     2     0     0     0     0     0 |     i = SF
+     5     0     0     0     0     0     0     0     0     0 |     j = RF
+\end{verbatim}
 
 \begin{thebibliography}{9}
 
