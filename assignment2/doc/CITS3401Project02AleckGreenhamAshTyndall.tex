@@ -117,9 +117,11 @@ There are 3 layers of the network: the input, hidden and output layers. Attribut
 
 \subsection*{Data Restructing}
 
-Weka best supports its own \texttt{ARFF} format and so it was necessary to convert the CSV training \cite{trainingdata} and test \cite{testdata} data. The tool linked to in the design document \cite{arffconv} timed out and produced error 500 when attempting to convert the large testing set. A substitute Python script was written, \texttt{csv\_convertor.py}.
+Weka best supports its own \texttt{ARFF} format and so it was necessary to convert the CSV training \cite{trainingdata} and test \cite{testdata} data to this format. The tool linked to in the design document \cite{arffconv} timed out and produced error 500 when attempting to convert the large testing set, thus a substitute Python script was written, \texttt{csv\_convertor.py}.
 
-The documentation for the data attributes \cite{expattr} states the ``suit of card'' and ``class of hand'' attributes are ``ordinal'', yet the training data ARFF labelled all of its attributes as ``numeric''. To better reflect the nature of the data and to provide improved classifcation results, the ARFF file was modified to define the card value attributes (C1 through C5) to be Weka's ``nominal specification'' (Weka's form of an enumeration). 
+The documentation for the data attributes \cite{expattr} states the ``suit of card'' attributes is ``ordinal'', yet the training data ARFF labelled all of its attributes as ``numeric''. To better reflect the nature of the data and to provide improved classification results, the ARFF file was modified to define the suite value attributes (S1 through S5) to be Weka's ``nominal specification'' (Weka's form of an enumeration).
+
+Similarly while the documentation specified that the ``class of card'' attribute was ``numeric'', experimentation indicated that this was an incorrect classification (card values were incorrectly considered to be a sliding scale) and in fact the data should also be ``ordinal''. As such the attributes C1 through C5 were also converted to Weka's ``nominal specification''.
 
 The Python script mapped the suite attribute numbers to representative letter combinations to assist in the interpretation of the enumeration.
 
@@ -137,15 +139,15 @@ The ratio of classes is then calculated against Royal Flushes, and a segment of 
 
 \subsection*{Aim}
 
-The aim of the first experiment was to evaluate how effective each of the 3 classifiers are a categorising poker hands, as they formatted in the original training and test data sets. Each classifiers' classification error rate was calculated in order to compare the efficacy of the different methods.
+The aim of the first experiment was to evaluate how effective each of the 3 classifiers are a categorising poker hands, as they are formatted in the original training and test data sets (with slight data type modifications as mentioned above). Each classifiers' classification error rate was calculated in order to compare the efficacy of the different methods.
 
 \subsection*{Method}
 
 The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
 
-Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 Poker hands each and the results were averaged to attain an indication of how well the classifiers worked on non-training data.
+Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 random Poker hands each and the results were averaged to attain an indication of how well the classifiers worked on non-training data.
 
-Finally, the same algorithms were retrained against 3 small subsets of the same training data using 10-fold cross-validation to check for overfitting, or the generation of rules, conditions, or weightings due to noisy data that give poor classification performance. Where precision was significantly higher, overfitting was identified as having occurred in the larger training set.
+Finally, the same algorithms were retrained against 3 small equal-ratio subsets of the same training data using 10-fold cross-validation to check for overfitting, or the generation of rules, conditions, or weightings due to noisy data that give poor classification performance. Where precision was significantly higher, overfitting was identified as having occurred in the larger training set.
 
 \subsection*{Results}
 
@@ -153,7 +155,7 @@ Finally, the same algorithms were retrained against 3 small subsets of the same 
 
 Using the 10-fold cross-validation, the na\"ive bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The confusion matrix, which can be found in  Appendix \ref{app:confusion}, reveals all hands were classified as either being a hand worth nothing (0), or 1 pair (1). 
 
-The strong bias for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely and thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not allow for the improbable occasions where these cards belong to a more valuable hand.
+The strong bias for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely, thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not correctly allow for the improbable occasions where these cards belong to a more valuable hand.
 
 The average correct classification rate for the 10 test sets was 49.24\%, which is close to the value of the cross validation results. The average correct classification rate for the smaller training subsets was lower than that of the larger one at 47.95\%, so no over-fitting occurred in the full training set. 
 
@@ -288,6 +290,8 @@ Cards appear in the training data files in random orders and while this does not
 \subsection*{Method}
 
 The training data from Experiment 1, which placed cards in each hand in random order, was ordered into two new configurations: ascending by card value, and by suite. Cards with the same card value were then sorted into suites in the first case, and those with the same suite were further sorted by card value in the second. Each of the classier algorithms in Experiment 1 was run again on the newly ordered training data using 10-fold cross-validation. The results of each algorithm were then compared to the corresponding results from Experiment 1. Where the performance of the classifiers was improved, it was confirmed that random ordering was preventing effective classifications of similar Poker hands in different orders.
+
+A script (\texttt{data\_reorderer.py}) was devised that would take an input file, split each line into its contained pairs, sort the pairs, then write them out to the file again. The card ordering that is sorted by card then suite is labelled in all places as ``cssort'', similarly the inverse is labelled ``scsort''.
 
 \subsection*{Results}
 
