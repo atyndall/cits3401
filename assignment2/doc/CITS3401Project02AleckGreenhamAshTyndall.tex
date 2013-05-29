@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{amsmath}
+\usepackage{booktabs}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -38,29 +39,9 @@
 
 \maketitle
 
-\section*{Abstract}
-
-This document details the analysis of Na\"ive Bayesian, C4.5 and Backpropagation Neural Network Classifications methods for the classification of Poker hands (modelled as permutations of 5 playing cards) as one of the nine well-defined classes. Where the analysis requirements \cite{designdoc} were ambiguous or incomplete, reasonable assumptions were made and documented.
-
 \section*{Introduction}
 
-\section*{Limitations}
-
-
-\section*{Requirements}
-
-
-\subsection*{Assumptions}
-
-The following assumptions were made:
-
-\begin{itemize}
-	\item item	
-\end{itemize}
-
-\begin{enumerate}
-	\item item
-\end{enumerate}
+This document details the analysis of Na\"ive Bayesian, C4.5 and Backpropagation Neural Network Classifications methods for the classification of Poker hands (modelled as permutations of 5 playing cards) as one of the nine well-defined classes. Where the analysis requirements \cite{designdoc} were ambiguous or incomplete, reasonable assumptions were made and documented.
 
 \section*{Classification Method Selection}
 
@@ -152,13 +133,136 @@ The ratio of classes is then calculated against Royal Flushes, and a segment of 
 
 \texttt{test\_splitter.py} randomly splits the test data into a configurable amount of sets with a configurable amount of elements. Ten sets of 5000 elements were generated in this instance. To prevent any result ordering bias, the entire test set is randomised in memory and then exported into the specified number of elements in their own file.
 
-\subsection*{Data Import}
+\section*{Experiment 1}
 
-\section*{Experimentation}
+\subsection*{Aim}
 
-\subsection*{Initial Experiment}
+The aim of the first experiment was to evaluate how effective each of the 3 classifiers are a categorising poker hands, as they formatted in the original training and test data sets. Each classifiers' classification error rate was calculated in order to compare the efficacy of the different methods.
 
-For our intial experiment, we decided to use the NaiveBayes, MultilayerPerceptron and the J48 algorithm to test against our full sized training set \texttt{poker\_hand/training}. For the experimental parameters, we elected to cross-validate 10-fold, and repeat the number of interations of the algorithms 10 times.
+\subsection*{Methodology}
+
+The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
+
+Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 Poker hands each and the results were averaged. 
+
+\subsection*{Results}
+
+\subsubsection*{Na\"ive Bayes}
+
+Using the 10-fold cross-validation, the na\"ive bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The results shown Table \ref{tab:nbresults} reveal all hands were classified as either being a hand worth nothing (0), or 1 pair (1). 
+
+The strong favouring for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely and thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not allow for the improbable occasions where these cards belong to a more valuable hand.
+
+The average correct classification rate for the 10 test sets was 49.24\%, which is close to value the cross validation results. 
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 49.064 & 0.114 & 0.239 & 0.421 & 0.491 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{49.236} & \textit{0.114} & \textit{0.238} & \textit{0.423} & \textit{0.492} \\
+    \textbf{   testing/0} & 49.14 & 0.1139 & 0.2393 & 0.414 & 0.491 \\
+    \textbf{   testing/1} & 50.16 & 0.1131 & 0.2377 & 0.437 & 0.502 \\
+    \textbf{   testing/2} & 48.18 & 0.1135 & 0.2384 & 0.41  & 0.482 \\
+    \textbf{   testing/3} & 49.24 & 0.1129 & 0.2371 & 0.418 & 0.492 \\
+    \textbf{   testing/4} & 48.66 & 0.1135 & 0.2384 & 0.419 & 0.487 \\
+    \textbf{   testing/5} & 49.72 & 0.1135 & 0.2385 & 0.432 & 0.497 \\
+    \textbf{   testing/6} & 48.84 & 0.1135 & 0.2385 & 0.424 & 0.488 \\
+    \textbf{   testing/7} & 49.84 & 0.1133 & 0.238 & 0.44  & 0.498 \\
+    \textbf{   testing/8} & 49.52 & 0.1139 & 0.2392 & 0.416 & 0.495 \\
+    \textbf{   testing/9} & 49.06 & 0.114 & 0.2394 & 0.416 & 0.491 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Ratio Subsets (avg)} & \textit{49.987} & \textit{0.113} & \textit{0.238} & \textit{0.449} & \textit{0.500} \\
+    \textbf{   training/0} & 50.4202 & 0.1132 & 0.2379 & 0.467 & 0.504 \\
+    \textbf{   training/1} & 49.8599 & 0.1133 & 0.238 & 0.445 & 0.499 \\
+    \textbf{   training/2} & 49.6799 & 0.1133 & 0.238 & 0.436 & 0.497 \\
+    \bottomrule
+    \end{tabular}%
+
+	\caption{Na\"ive Bayesian Classification for Poker hands for complete training set with class validation, 10 sets of test data and smaller training sets}   
+  \label{tab:nbresults}%
+\end{table}%
+
+\subsubsection*{Decision Tree}
+
+The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. Table \ref{tab:dtresults} reveals was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). However, it still failed to differentiate these from the more rare hands. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
+
+It is interesting to note a large dip in precision for two pairs (2). From the confusion matrix it can be seen these are often misclassified as single pairs (1). This may be because it is much easier to determine the presence of a single pair than it is to confirm the presence of 2 pairs.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 57.537 & 0.099 & 0.246 & 0.537 & 0.575 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{57.716} & \textit{0.099} & \textit{0.246} & \textit{0.540} & \textit{0.577} \\
+    \textbf{   testing/0} & 57.06 & 0.0993 & 0.2472 & 0.524 & 0.571 \\
+    \textbf{   testing/1} & 59.22 & 0.0969 & 0.2435 & 0.561 & 0.592 \\
+    \textbf{   testing/2} & 57.14 & 0.0991 & 0.2463 & 0.536 & 0.571 \\
+    \textbf{   testing/3} & 57.34 & 0.0988 & 0.2461 & 0.534 & 0.573 \\
+    \textbf{   testing/4} & 58.82 & 0.0978 & 0.244 & 0.548 & 0.588 \\
+    \textbf{   testing/5} & 58.24 & 0.0979 & 0.2439 & 0.547 & 0.582 \\
+    \textbf{   testing/6} & 57.38 & 0.0992 & 0.2457 & 0.541 & 0.574 \\
+    \textbf{   testing/7} & 57.68 & 0.0986 & 0.2457 & 0.544 & 0.577 \\
+    \textbf{   testing/8} & 57.68 & 0.099 & 0.2467 & 0.533 & 0.577 \\
+    \textbf{   testing/9} & 56.6  & 0.1   & 0.2496 & 0.53  & 0.566 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Ratio Subsets (avg)} & \textit{71.815} & \textit{0.076} & \textit{0.194} & \textit{0.727} & \textit{0.718} \\
+    \textbf{   training/0} & 71.5086 & 0.0758 & 0.1945 & 0.709 & 0.715 \\
+    \textbf{   training/1} & 72.8091 & 0.0746 & 0.1927 & 0.739 & 0.728 \\
+    \textbf{   training/2} & 71.1285 & 0.0764 & 0.1961 & 0.734 & 0.711 \\
+    \bottomrule
+    \end{tabular}%
+
+\caption{J45 Decision Tree Classification for Poker hands for complete training set with class validation, 10 sets of test data and smaller training sets}   
+  \label{tab:dtresults}%
+\end{table}%
+
+\subsection*{Neural Network}
+
+Table \ref{tab:nnresults} shows Neural Networks achieved a surprising leap in correct classification rate with 93.43\% and a root mean squared error of 0.07 when run using 10-fold validation, compared to that of the other two classification algorithms. This is probably due to the fact that calibrated attribute weightings can be much more sensitive to rare hands than probabilities.
+
+Of note is the large increase in precision for 3 of a Kind (3), which may be it can be satisfied in relatively few ways, and involves only 3 cards. The precision for hands than involve 4 or more cards is significantly lower. For example, 2 pairs (2) is often misclassified as a single pair (1). This is also consistent with hands involving a smaller number of cards having a higher precision classification rate. 
+
+The execution time was considerably longer than that of the other two classification algorithms, yet in this case the huge increase in precision would justify the longer run time.
+                 
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 93.427 & 0.010 & 0.075 & 0.903 & 0.934 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{94.360} & \textit{0.008} & \textit{0.063} & \textit{0.899} & \textit{0.944} \\
+    \textbf{   testing/0} & 93.68 & 0.0088 & 0.0662 & 0.888 & 0.937 \\
+    \textbf{   testing/1} & 94.54 & 0.0078 & 0.0625 & 0.903 & 0.945 \\
+    \textbf{   testing/2} & 94.58 & 0.0077 & 0.0614 & 0.905 & 0.946 \\
+    \textbf{   testing/3} & 94.94 & 0.0073 & 0.0594 & 0.908 & 0.949 \\
+    \textbf{   testing/4} & 94.58 & 0.0077 & 0.0619 & 0.903 & 0.946 \\
+    \textbf{   testing/5} & 94.52 & 0.0079 & 0.0625 & 0.901 & 0.945 \\
+    \textbf{   testing/6} & 94.64 & 0.0076 & 0.0617 & 0.904 & 0.946 \\
+    \textbf{   testing/7} & 94.24 & 0.0082 & 0.0648 & 0.897 & 0.942 \\
+    \textbf{   testing/8} & 94.16 & 0.008 & 0.0626 & 0.894 & 0.942 \\
+    \textbf{   testing/9} & 93.72 & 0.0086 & 0.0657 & 0.887 & 0.937 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Ratio Subsets (avg)} & \textit{94.805} & \textit{0.007} & \textit{0.056} & \textit{0.903} & \textit{0.948} \\
+    \textbf{   training/0} & 94.7979 & 0.0068 & 0.0559 & 0.903 & 0.948 \\
+    \textbf{   training/1} & 94.7379 & 0.007 & 0.0568 & 0.902 & 0.947 \\
+    \textbf{   training/2} & 94.878 & 0.0067 & 0.0546 & 0.904 & 0.949 \\
+    \bottomrule
+    \end{tabular}%
+
+
+\caption{Neural Network Classification for Poker hands for complete training set with class validation, 10 sets of test data and smaller training sets}   
+  \label{tab:nnresults}%
+\end{table}%
 
 \begin{thebibliography}{9}
 
@@ -166,7 +270,7 @@ For our intial experiment, we decided to use the NaiveBayes, MultilayerPerceptro
 	Poker Hand Training Data,	
 	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/poker-hand-training-true.data
 	
-\bibitem{trainingdata}
+\bibitem{testingdata}
 	Poker Hand Test Data,	
 	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/poker-hand-testing.data
 	
@@ -189,5 +293,64 @@ For our intial experiment, we decided to use the NaiveBayes, MultilayerPerceptro
 \end{thebibliography}
 
 \bibliographystyle{IEEEtranN}
+
+\appendix
+
+\section*{Appendices}
+
+\section{Na\"ive Bayesian Confusion Matrix For Complete Training Data and Cross Validation On Original Data}
+
+\begin{verbatim}
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j   <-- classified as
+ 11510   983     0     0     0     0     0     0     0     0 |     a = 0
+  9838   761     0     0     0     0     0     0     0     0 |     b = 1
+  1129    77     0     0     0     0     0     0     0     0 |     c = 2
+   480    33     0     0     0     0     0     0     0     0 |     d = 3
+    87     6     0     0     0     0     0     0     0     0 |     e = S
+    52     2     0     0     0     0     0     0     0     0 |     f = F
+    33     3     0     0     0     0     0     0     0     0 |     g = FH
+     6     0     0     0     0     0     0     0     0     0 |     h = 4
+     4     1     0     0     0     0     0     0     0     0 |     i = SF
+     4     1     0     0     0     0     0     0     0     0 |     j = RF
+\end{verbatim}
+
+\section{Decision Tree Confusion Matrix For Complete Training Data and Cross Validation On Original Data}
+
+\begin{verbatim}
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j   <-- classified as
+ 10100  2349    25     7     9     3     0     0     0     0 |     a = 0
+  6207  4268    92    20     8     3     1     0     0     0 |     b = 1
+   461   723    19     2     0     0     1     0     0     0 |     c = 2
+   165   337     9     2     0     0     0     0     0     0 |     d = 3
+    60    31     1     0     1     0     0     0     0     0 |     e = S
+    45     9     0     0     0     0     0     0     0     0 |     f = F
+     5    30     1     0     0     0     0     0     0     0 |     g = FH
+     0     6     0     0     0     0     0     0     0     0 |     h = 4
+     4     0     0     0     1     0     0     0     0     0 |     i = SF
+     4     0     0     0     1     0     0     0     0     0 |     j = RF
+\end{verbatim}
+
+\section{Neural Network Confusion Matrix For Complete Training Data and Cross Validation On  Original Data}
+
+\begin{verbatim}
+=== Confusion Matrix ===
+
+     a     b     c     d     e     f     g     h     i     j   <-- classified as
+ 12453     2     0     0    30     8     0     0     0     0 |     a = 0
+    18 10497    54    27     2     1     0     0     0     0 |     b = 1
+     0  1185    21     0     0     0     0     0     0     0 |     c = 2
+     1   133     0   379     0     0     0     0     0     0 |     d = 3
+    84     1     0     0     8     0     0     0     0     0 |     e = S
+    43     1     0     0     2     8     0     0     0     0 |     f = F
+     0    33     0     3     0     0     0     0     0     0 |     g = FH
+     0     0     0     6     0     0     0     0     0     0 |     h = 4
+     3     0     0     0     2     0     0     0     0     0 |     i = SF
+     5     0     0     0     0     0     0     0     0     0 |     j = RF
+\end{verbatim}
+
 
 \end{document}
