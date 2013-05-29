@@ -139,7 +139,7 @@ The ratio of classes is then calculated against Royal Flushes, and a segment of 
 
 The aim of the first experiment was to evaluate how effective each of the 3 classifiers are a categorising poker hands, as they formatted in the original training and test data sets. Each classifiers' classification error rate was calculated in order to compare the efficacy of the different methods.
 
-\subsection*{Methodology}
+\subsection*{Method}
 
 The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
 
@@ -151,9 +151,9 @@ Finally, the same algorithms were retrained against 3 small subsets of the same 
 
 \subsubsection*{Na\"ive Bayes}
 
-Using the 10-fold cross-validation, the na\"ive bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The confusion matrix can be found Appendix \ref{app:confusion} results shown Table \ref{tab:nbresults} reveal all hands were classified as either being a hand worth nothing (0), or 1 pair (1). 
+Using the 10-fold cross-validation, the na\"ive bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The confusion matrix, which can be found in  Appendix \ref{app:confusion}, reveals all hands were classified as either being a hand worth nothing (0), or 1 pair (1). 
 
-The strong favouring for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely and thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not allow for the improbable occasions where these cards belong to a more valuable hand.
+The strong bias for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely and thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not allow for the improbable occasions where these cards belong to a more valuable hand.
 
 The average correct classification rate for the 10 test sets was 49.24\%, which is close to the value of the cross validation results. The average correct classification rate for the smaller training subsets was lower than that of the larger one at 47.95\%, so no over-fitting occurred in the full training set. 
 
@@ -191,7 +191,7 @@ The average correct classification rate for the 10 test sets was 49.24\%, which 
 
 \subsubsection*{C4.5 Decision Tree}
 
-The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. Table \ref{tab:dtresults} reveals was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). However, it still failed to differentiate these from the more rare hands. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
+The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. J48 was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). It still failed to differentiate these from the more rare hands; the complete confusion matrix can be found in Appendix \ref{app:confusion}. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
 
 It is interesting to note a large dip in precision for two pairs (2). From the confusion matrix it can be seen these are often misclassified as single pairs (1). This may be because it is much easier to determine the presence of a single pair than it is to confirm the presence of 2 pairs.
 
@@ -231,7 +231,7 @@ The average correct classification rate of the test cases was slightly above tha
 
 \subsection*{Neural Network}
 
-Table \ref{tab:nnresults} shows Neural Networks achieved a surprising leap in correct classification rate with 93.43\% and a root mean squared error of 0.07 when run using 10-fold validation, compared to that of the other two classification algorithms. This is probably due to the fact that calibrated attribute weightings can be much more sensitive to rare hands than probabilities.
+Table \ref{tab:nnresults} shows Neural Networks achieved a surprising leap in correct classification rate with 93.43\% and a root mean squared error of 0.07, compared to that of the other two classification algorithms. This is probably due to the fact that calibrated attribute weightings can be more sensitive to rare hands than probabilities.
 
 Of note is the large increase in precision for 3 of a Kind (3), which may be it can be satisfied in relatively few ways, and involves only 3 cards. The precision for hands than involve 4 or more cards is significantly lower. For example, 2 pairs (2) is often misclassified as a single pair (1). This is also consistent with hands involving a smaller number of cards having a higher precision classification rate. 
 
@@ -293,7 +293,7 @@ The training data from Experiment 1, which placed cards in each hand in random o
 
 \subsubsection*{Na\"ive Bayesian}
 
-Table \ref{tab:nboresults} reveals a significant increase in correct classification rate of Poker hands ordered by Card Value with 62.72\%. Poker hands ordered by suite showed a much more modest improvement in classification performance with 49.38\% over the original unordered hands with 49.06\%.
+Table \ref{tab:nboresults} reveals a significant increase in correct classification rate of Poker hands ordered by Card Value with 62.72\%. Poker hands ordered by suite showed a much more modest improvement in classification performance with 49.38\% over the original unordered hands with 49.06\%. The complete results for the ordered hands can be found in Appendix \ref{app:naive}.
 
 \begin{table}[htbp]
   \centering  
@@ -312,7 +312,7 @@ Table \ref{tab:nboresults} reveals a significant increase in correct classificat
 
 \subsubsection*{C4.5 Decision Tree}
 
-An enormous improvement was seen in correct classification rate of C4.5 for Poker hands ordered by card value with 93.60\%, compared to that of the unordered hands, 57.54\%. Interesting, table \ref{tab:dtoresults} reveals that ordering by suite actually decreased the correct classification rate to 56.00\%. This was probably because the sorting essentially standardised certain attribute values. For example, most hands would contain at least 1 heart, which is always placed at the start of the hand. This essentially gives the second attribute (the suite of the first card) the same value for all of the Poker hands, making it useless for distinguishing between records.
+An enormous improvement was seen in correct classification rate of C4.5 for Poker hands ordered by card value with 93.60\%, compared to that of the unordered hands, 57.54\%. Interesting, table \ref{tab:dtoresults} reveals that ordering by suite actually decreased the correct classification rate to 56.00\%. This was probably because the sorting essentially standardised certain attribute values. For example, most hands would contain at least 1 heart, which is always placed at the start of the hand. This essentially gives the second attribute (the suite of the first card) the same value for all of the Poker hands, making it useless for distinguishing between records. The complete results for the ordered hands can be found in Appendix \ref{app:c45}.
 
 \begin{table}[htbp]
   \centering  
@@ -332,7 +332,7 @@ An enormous improvement was seen in correct classification rate of C4.5 for Poke
 
 \subsubsection*{MultiLayerPerceptron Neural Network}
 
-Table \ref{tab:nnoresults} reveals a relatively small increase in correct classification rate over can be achieved by ordering the cards by card value 94.4\% when compared to the classification rate for unordered hands, 93.43\%. Ordering by suite again decreased the performance of the algorithm to 88.8\%, down from 93.43\%, which is a smaller decrease than C4.5 saw. This is again, probably due to the elimination of some attributes as distinguishable properties of different Poker hands.
+Table \ref{tab:nnoresults} reveals a relatively small increase in correct classification rate over can be achieved by ordering the cards by card value 94.4\% when compared to the classification rate for unordered hands, 93.43\%. Ordering by suite again decreased the performance of the algorithm to 88.8\%, down from 93.43\%, which is a smaller decrease than C4.5 saw. This is again, probably due to the elimination of some attributes as distinguishable properties of different Poker hands. The complete results for the ordered hands can be found in Appendix \ref{app:neural}.
 
 \begin{table}[htbp]
   \centering  
@@ -453,6 +453,7 @@ Ordering by suite shows little improvement in Na\"ive Bayesian classification, b
 \clearpage
 
 \section{Na\"ive Bayesian Classification For Ordered Poker Hands}
+\label{app:naive}
 
 \begin{table}[htbp]
   \centering
@@ -502,13 +503,14 @@ Ordering by suite shows little improvement in Na\"ive Bayesian classification, b
     \end{tabular}%
 
 	\caption{Na\"ive Bayesian Classification for Poker hands ordered by suite for complete training set with class validation and 10 sets of test data}   
-  \label{tab:nnosresults}%
+  \label{tab:nbosresults}%
 \end{table}%
 
 
 \clearpage
 
 \section{C4.5 Classification For Ordered Poker Hands}
+\label{app:c45}
 
 \begin{table}[htbp]
   \centering
@@ -559,13 +561,14 @@ Ordering by suite shows little improvement in Na\"ive Bayesian classification, b
     \end{tabular}%
 
 
-	\caption{C4.5 Classification for Poker hands ordered by suite for complete training set with class validation and 10 sets of test data}   
-  \label{tab:nnosresults}%
+	\caption{MultiLayerPerceptron Classification for Poker hands ordered by suite for complete training set with class validation and 10 sets of test data}   
+  \label{tab:mlpsresults}%
 \end{table}%
 
 \clearpage
 
 \section{MultiLayerPerceptron Classification For Ordered Poker Hands}
+\label{app:neural}
 
 \begin{table}[htbp]
   \centering
