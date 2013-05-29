@@ -133,7 +133,7 @@ The ratio of classes is then calculated against Royal Flushes, and a segment of 
 
 \texttt{test\_splitter.py} randomly splits the test data into a configurable amount of sets with a configurable amount of elements. Ten sets of 5000 elements were generated in this instance. To prevent any result ordering bias, the entire test set is randomised in memory and then exported into the specified number of elements in their own file.
 
-\section*{Experiment 1}
+\section*{Experiment 1: Comparison of 3 Algorithms For Classifying Poker Hands}
 
 \subsection*{Aim}
 
@@ -143,7 +143,9 @@ The aim of the first experiment was to evaluate how effective each of the 3 clas
 
 The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
 
-Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 Poker hands each and the results were averaged. 
+Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 Poker hands each and the results were averaged to attain an indication of how well the classifiers worked on non-training data.
+
+Finally, the same algorithms were retrained against 3 small subsets of the same training data using 10-fold cross-validation to check for overfitting, or the generation of rules, conditions, or weightings due to noisy data that give poor classification performance. Where precision was significantly higher, overfitting was identified as having occurred in the larger training set.
 
 \subsection*{Results}
 
@@ -186,7 +188,7 @@ The average correct classification rate for the 10 test sets was 49.24\%, which 
   \label{tab:nbresults}%
 \end{table}%
 
-\subsubsection*{Decision Tree}
+\subsubsection*{C4.5 Decision Tree}
 
 The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. Table \ref{tab:dtresults} reveals was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). However, it still failed to differentiate these from the more rare hands. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
 
@@ -264,6 +266,16 @@ The execution time was considerably longer than that of the other two classifica
   \label{tab:nnresults}%
 \end{table}%
 
+\section*{Experiment 2: Investigating the Effect of Card Ordering On Classification}
+
+\subsection*{Aim}
+
+Cards appear in the training data files in random orders and while this does not affect the type of each Poker hand they are, it affects which attributes a particular card falls within. The aim of this experiment is to test whether this prevents the classifier methods from finding similarities between hands that have the same or similar cards, but in different orders.
+
+\subsection*{Method}
+
+The training data from Experiment 1, which placed cards in each hand in random order, was ordered into two new configurations: ascending by card value, and by suite. Each of the classier algorithms in Experiment 1 was run again on the newly ordered training data using 10-fold cross-validation. The results of each algorithm were then compared to the corresponding results from Experiment 1. Where the performance of the classifiers was improved, it was confirmed that random ordering was preventing effective classifications of similar Poker hands in different orders.
+
 \begin{thebibliography}{9}
 
 \bibitem{trainingdata}
@@ -298,7 +310,7 @@ The execution time was considerably longer than that of the other two classifica
 
 \section*{Appendices}
 
-\section{Na\"ive Bayesian Confusion Matrix For Complete Training Data and Cross Validation On Original Data}
+\section{Na\"ive Bayesian Confusion Matrix For Complete Training Data and Cross Validation On Randomly Order Poker Hand Training Data}
 
 \begin{verbatim}
 === Confusion Matrix ===
@@ -316,7 +328,7 @@ The execution time was considerably longer than that of the other two classifica
      4     1     0     0     0     0     0     0     0     0 |     j = RF
 \end{verbatim}
 
-\section{Decision Tree Confusion Matrix For Complete Training Data and Cross Validation On Original Data}
+\section{J48 Confusion Matrix For Complete Training Data and Cross Validation On Randomly Order Poker Hand Training Data}
 
 \begin{verbatim}
 === Confusion Matrix ===
@@ -334,7 +346,7 @@ The execution time was considerably longer than that of the other two classifica
      4     0     0     0     1     0     0     0     0     0 |     j = RF
 \end{verbatim}
 
-\section{Neural Network Confusion Matrix For Complete Training Data and Cross Validation On  Original Data}
+\section{Neural Network Confusion Matrix For Complete Training Data and Cross Validation On Randomly Order Poker Hand Training Data}
 
 \begin{verbatim}
 === Confusion Matrix ===
