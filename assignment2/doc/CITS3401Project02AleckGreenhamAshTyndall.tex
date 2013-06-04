@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper]{article}
+\documentclass[10pt, a4paper]{article}
 
 \usepackage{titling}
 \usepackage{graphicx}
@@ -41,7 +41,7 @@
 
 \section*{Introduction}
 
-This document details the analysis of Na\"ive Bayesian, C4.5 and Backpropagation Neural Network Classifications methods for the classification of Poker hands (modelled as permutations of 5 playing cards) as one of the nine well-defined classes. Where the analysis requirements \cite{designdoc} were ambiguous or incomplete, reasonable assumptions were made and documented.
+This document details the analysis of using the Na\"ive Bayesian, C4.5 and backpropagation neural network classification algorithms for Poker hands (modelled as permutations of 5 playing cards) into the nine well-defined classes. Reasonable assumptions were made and documented where the analysis requirements \cite{designdoc} were ambiguous or incomplete.
 
 \section*{Classification Method Selection}
 
@@ -49,7 +49,7 @@ Classification methods were selected from those discussed in lectures based on h
 
 \subsection*{Bayesian Classification}
 
-The Na\"ive Bayesian Classifier was chosen for comparison with the other classifiers used. It is based on Bayes' Theorem:
+The Na\"ive Bayesian classifier was selected as a reference classifier for comparison with the other methods chosen. It is based on Bayes' Theorem:
 
 \begin{align*}
 	P(A|B) = \frac{P(B|A) \times P(A)}{P(B)}
@@ -64,23 +64,23 @@ Where:
 	\item $P(B)$ is the probability that an element from the universal set is also in set B
 \end{itemize}
 
-When applied to classification, $P(A|B)$ becomes the probability a record in set B, belongs to a particular class, A. Na\"ive Bayesian Classification calculates the probability of a record belonging to each of the available classes, and places it in the most probable class.	
+When applied to classification, $P(A|B)$ becomes the probability a record in set B, belongs to a particular class, A. Na\"ive Bayesian Classification calculates the probability of a record belonging to each of the available classes and places it in the most probable one.	
 
-Record attributes are assumed to be independent to reduce the computational load in Bayesian classification. This is an appropriate assumption because each card has been split into two attributes - the value of the card and the suite - and therefore is almost entirely independent. The one exception is a hand with four of a kind; the fifth card's face value cannot be the same as the first four (because there are only 4 of each card denomination - one for each suite).
+Record attributes are assumed to be independent to reduce the computational load in calculating Na\"ive Bayesian Classification; this is an appropriate assumption because each card has been split into two attributes - the value of the card and the suite - and therefore is almost entirely independent. The one exception is a hand with four of a kind: the fifth card's face value cannot be the same as the first four (because there are only 4 of each card denomination - one for each suite).
 
 \subsection*{Decision Tree Classification}
 
-Decision tree classification algorithms iteratively divide records based on attributes selected to increase information gain, until a given threshold is reached. Decision tree classification algorithms differ in the way they select attributes for division.
+Decision Tree Classification iteratively divides records into groups (or nodes) based on attributes selected to increase information gain until a given threshold is reached; the way the attributes for division are selected differentiate between types of decision tree algorithms.
 
-Attributes are required to be categorical values for use with decision tree classification. This is suitable for classifying poker hands as the attributes are categorical values (card face value and suite).
+Decision Tree Classification requires attributes to be categorical values; this is suitable for classifying Poker hands as the attributes are indeed categorical values (card face value and suite).
 
-\textit{Information Gain} is a quantisation of the increase in information that can be achieved by sub-dividing a data set. It is therefore the objective of grouping the data to maximise information gain. Information gain for data set D, is defined as the difference in information or entropy before and after dividing the data:
+\textit{Information Gain} is a quantisation of the increase in information that can be achieved by sub-dividing a data set. It is the objective of iteratively grouping the data to maximise Information Gain. The information gain for data set D, is defined as the difference in information or entropy before and after dividing the data:
 
 \begin{align*}
 	Gain(A) = Info(D) - Info_A(D)
 \end{align*}
 
-Where $Info(D)$ is the entropy of the entire data set:
+Where $Info(D)$ is the entropy of the entire data set with total of m classes and probability $p_i$, of randomly selecting an element from class i:
 
 \begin{align*}
 	Info(D) = - \sum^{m}_{i=1}p_i\log_2(p_i)
@@ -93,13 +93,13 @@ And $Info_A(D)$ is the information after a division A, into v different groups $
 \end{align*}
 
 
-C4.5 (or the J48 implementation in Weka) was selected from the available decision tree classification methods. It maximises a quantity called \textit{Gain Ratio}, a normalisation of Information Gain, to determine which attribute should be used to divide the data set to optimise information gain.
+C4.5 (or the J48 implementation in Weka) was selected from the available decision tree classification methods. It maximises a quantity called \textit{Gain Ratio}, a normalisation of Information Gain, to determine which attribute should be divided on.
 
 \begin{align*}
 	Gain Ratio(A) = \frac{Gain(A)}{SplitInfo(A)}
 \end{align*}
 
-Where SplitInfo is defined as:
+Where SplitInfo is defined for v groups as:
 
 \begin{align*}
 	SplitInfo_A(D) = - \sum^{v}_{j=1}\frac{|D_j|}{|D|} \times \log_2(\frac{|D_j|}{|D|})
@@ -109,51 +109,55 @@ This iterative process of evaluation and division is stopped when all attributes
 
 \subsection*{Neural Network Classification}
 
-Backpropagation Neural Network Classifications (or the MultilayerPerceptron implementation in Weka) work by assigning attribute values weightings, which are continually refined by examining the error rates of recent classifications until a predefined threshold is reached. The weightings are adjusted to minimise the mean squared error between the neural network's predictions and the correct classifications.
+Backpropagation neural network classifications (or the MultilayerPerceptron implementation in Weka) work by assigning attribute values weightings, which are continually refined by examining the error rates of recent classifications until a predefined threshold is reached. The weightings are adjusted to minimise the mean squared error between the neural network's predictions and the correct classifications.
 
-There are 3 layers of the network: the input, hidden and output layers. Attributes are first fed into the input layer, allocated weightings and then fed into the hidden layer(s). The output values of the hidden layer(s) are are weighted and passed to the output layer. The weightings are calibrated backwards: starting with the output layer and moving through the model towards the input layer.
+There are 3 layers of the network: the Input, Hidden and Output layers. Attributes are first fed into the Input Layer, allocated weightings and then fed into the Hidden Layer(s). The output values of the Hidden Layer(s) are are weighted and passed to the Output Layer. The weightings are calibrated backwards: starting with the Output Layer and moving through the model towards the Input Layer.
 
 \section*{Implementation}
 
 \subsection*{Data Restructing}
 
-Weka best supports its own \texttt{ARFF} format and so it was necessary to convert the CSV training \cite{trainingdata} and test \cite{testdata} data. The tool linked to in the design document \cite{arffconv} timed out and produced error 500 when attempting to convert the large testing set. A substitute Python script was written, \texttt{csv\_convertor.py}.
+Weka best supports its own \texttt{ARFF} format and so it was necessary to convert the CSV training \cite{trainingdata} and test \cite{testdata} data. The tool linked to in the design document \cite{arffconv} timed out and produced error 500 when attempting to convert the large testing set, thus a substitute Python script was written, \texttt{csv\_convertor.py}.
 
-The documentation for the data attributes \cite{expattr} states the ``suit of card'' and ``class of hand'' attributes are ``ordinal'', yet the training data ARFF labelled all of its attributes as ``numeric''. To better reflect the nature of the data and to provide improved classifcation results, the ARFF file was modified to define the card value attributes (C1 through C5) to be Weka's ``nominal specification'' (Weka's form of an enumeration). 
+The documentation for the data attributes \cite{expattr} states the ``suit of card'' attributes is ``ordinal'', yet the training data ARFF labelled all of its attributes as ``numeric''. To better reflect the nature of the data and to provide improved classification results, the ARFF file was modified to define the suite value attributes (S1 through S5) to be Weka's ``nominal specification'' (Weka's form of an enumeration).
+
+Similarly, while the documentation specified that the ``class of card'' attribute was ``numeric'', experimentation indicated that this was an incorrect classification (card values were incorrectly considered to be a sliding scale) and in fact the data should also be ``ordinal''. As such the attributes C1 through C5 were also converted to Weka's ``nominal specification''.
 
 The Python script mapped the suite attribute numbers to representative letter combinations to assist in the interpretation of the enumeration.
 
 \subsection*{Creating Smaller Training Sets}
 
-The Python script \texttt{training\_ratio\_splitter.py} creates smaller training sets while still maintaining the ratios of each type of Poker hand present in the larger training set. The program counts the number of the lowest probable hand class, Royal Flushes,  present in the larger training set and divides the full training set into smaller sets containing one Royal Flush each.
+The Python script \texttt{training\_ratio\_splitter.py} creates smaller training sets while still maintaining the ratios of each type of Poker hand present in the larger training set. The program counts the number of the lowest probable hand class, Royal Flushes,  in the larger training set and divides the full training set into smaller sets containing one Royal Flush each.
 
-The ratio of classes is then calculated against Royal Flushes, and a segment of each class equivalent to that ratio is placed in each file. Because the training data set does not divide perfectly into integers, a small amount of card plays are discarded (36 of 25K). 
+The ratio of classes is then calculated against Royal Flushes, and a segment of each class equivalent to that ratio is placed in each file. Because the training data set does not divide perfectly into integers, a small amount of card plays are discarded (36 of the 25,000). 
 
 \subsection*{Splitting Testing Set}
 
-\texttt{test\_splitter.py} randomly splits the test data into a configurable amount of sets with a configurable amount of elements. Ten sets of 5000 elements were generated in this instance. To prevent any result ordering bias, the entire test set is randomised in memory and then exported into the specified number of elements in their own file.
+\texttt{test\_splitter.py} randomly splits the test data into a configurable amount of sets with a configurable amount of elements. Ten sets of 5,000 elements were generated in this instance. To prevent any result ordering bias, the entire test set is randomised in memory and then exported into the specified number of elements in their own file.
 
-\section*{Experiment 1}
+\section*{Experiment 1: Comparison of 3 Algorithms For Classifying Poker Hands}
 
 \subsection*{Aim}
 
-The aim of the first experiment was to evaluate how effective each of the 3 classifiers are a categorising poker hands, as they formatted in the original training and test data sets. Each classifiers' classification error rate was calculated in order to compare the efficacy of the different methods.
+The aim of the first experiment was to evaluate how effective each of the 3 classifiers are at categorising Poker hands, as they are formatted in the original training and test data sets (with slight data type modifications as mentioned above). Each classifiers' error rate was calculated to compare the efficacy of the different methods.
 
-\subsection*{Methodology}
+\subsection*{Method}
 
 The Na\"iveBayes, MultilayerPerceptron and the J48 algorithms were each trained using the complete training set \texttt{poker\_hand/training} (approximately 25,000 records) and tested using 10-fold cross-validation.
 
-Each algorithm was then re-evaluated against against 10 separate test-data files of 5000 Poker hands each and the results were averaged. 
+Each algorithm was then re-evaluated against against 10 separate test-data files of 5,000 random Poker hands (totalling 50,000) and the results were averaged to attain an indication of how well the classifiers worked on non-training data.
+
+Finally, the same algorithms were retrained against 3 small equal-ratio subsets of the same training data using 10-fold cross-validation to check for overfitting, or the generation of rules, conditions, or weightings due to noisy data that give poor classification performance outside of the original training file. Where precision was significantly higher, overfitting was identified as having occurred in the larger training set.
 
 \subsection*{Results}
 
 \subsubsection*{Na\"ive Bayes}
 
-Using the 10-fold cross-validation, the na\"ive bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The results shown Table \ref{tab:nbresults} reveal all hands were classified as either being a hand worth nothing (0), or 1 pair (1). 
+The experiment results in Table \ref{tab:nbresults} reveal using the 10-fold cross-validation, the Na\"ive Bayes method achieved a correct classification rate of 49.07\% and a root mean squared error of 0.24. The confusion matrix, which can be found in  Appendix \ref{app:confusion}, reveals all hands were classified as either being a hand worth nothing (0), or 1 pair (1). 
 
-The strong favouring for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely and thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not allow for the improbable occasions where these cards belong to a more valuable hand.
+The strong bias for the lower valued hands can be explained by the large difference in the frequency in which hands worth nothing and single pairs occur (49.95\% and 42.34\% respectively), and the much rarer hands such as Straight Flush (SF) or Royal Flush (RF) (0.02\% and 0.02\% respectively). The Na\"ive Bayes method calculates the the most probable class for a hand as a function of the likelihood of each card being part of a hand that is in that class. The lower valued hands occur most often and are much more likely, thus all cards are more likely to belong to one of the many hands that belong to these lower classes. It does not correctly allow for the improbable occasions where these cards belong to a more valuable hand.
 
-The average correct classification rate for the 10 test sets was 49.24\%, which is close to value the cross validation results. 
+The average correct classification rate for the 10 test sets was 49.24\%, which is close to the value of the cross validation results. The average correct classification rate for the smaller training subsets was lower than that of the larger one at 47.95\%, so no over-fitting occurred in the full training set. 
 
 \begin{table}[htbp]
   \centering
@@ -175,31 +179,33 @@ The average correct classification rate for the 10 test sets was 49.24\%, which 
     \textbf{   testing/8} & 49.52 & 0.1139 & 0.2392 & 0.416 & 0.495 \\
     \textbf{   testing/9} & 49.06 & 0.114 & 0.2394 & 0.416 & 0.491 \\
     \textbf{} &       &       &       &       &  \\
-    \textbf{Ratio Subsets (avg)} & \textit{49.987} & \textit{0.113} & \textit{0.238} & \textit{0.449} & \textit{0.500} \\
-    \textbf{   training/0} & 50.4202 & 0.1132 & 0.2379 & 0.467 & 0.504 \\
-    \textbf{   training/1} & 49.8599 & 0.1133 & 0.238 & 0.445 & 0.499 \\
-    \textbf{   training/2} & 49.6799 & 0.1133 & 0.238 & 0.436 & 0.497 \\
+    \textbf{Ratio Subsets (avg)} & \textit{47.946} & \textit{0.114} & \textit{0.240} & \textit{0.429} & \textit{0.480} \\
+    \textbf{   training/0} & 48.6795 & 0.1137 & 0.2402 & 0.439 & 0.487 \\
+    \textbf{   training/1} & 47.2589 & 0.114 & 0.2405 & 0.42  & 0.473 \\
+    \textbf{   training/2} & 47.8992 & 0.1138 & 0.2403 & 0.428 & 0.479 \\
     \bottomrule
     \end{tabular}%
 
-	\caption{Na\"ive Bayesian Classification for Poker hands for complete training set with class validation, 10 sets of test data and smaller training sets}   
+
+	\caption{Na\"ive Bayesian Classification for Poker hands for complete training set with 10-fold cross validation, 10 sets of test data and smaller training sets}   
   \label{tab:nbresults}%
 \end{table}%
 
-\subsubsection*{Decision Tree}
+\subsubsection*{C4.5 Decision Tree}
 
-The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. Table \ref{tab:dtresults} reveals was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). However, it still failed to differentiate these from the more rare hands. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
+The J48 algorithm showed a marked improvement above the Na\"ive Bayes on the 10-fold cross-validation with a correct classification rate of 57.54\% and a root mean squared error of 0.25. J48 was able to create rules that accommodate less likely hands such as 2 Pairs (2), 3 Pairs (3) and a Straight (S). It still failed to differentiate these from the more rare hands; the complete confusion matrix can be found in Appendix \ref{app:confusion}. This is not surprising for a classification method that still relies on probabilities (although they are ``specialised'' or weighted based on data subsets). 
 
 It is interesting to note a large dip in precision for two pairs (2). From the confusion matrix it can be seen these are often misclassified as single pairs (1). This may be because it is much easier to determine the presence of a single pair than it is to confirm the presence of 2 pairs.
+
+Table \ref{tab:dtresults} reveals the average correct classification rate of the test cases was slightly above that of the 10-fold cross validation with 57.72\%. The small training subsets performed significantly worse than the full training set at 51.64\%, confirming overfitting did not occur in the larger training set.
 
 \begin{table}[htbp]
   \centering
   \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
-    
     \toprule
     \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
     \midrule
-    \textbf{10-fold crossv} & 57.537 & 0.099 & 0.246 & 0.537 & 0.575 \\
+    \textbf{10-fold crossv} & 57.54 & 0.10  & 0.25  & 0.54  & 0.58 \\
     \textbf{} &       &       &       &       &  \\
     \textbf{Test sets (avg)} & \textit{57.716} & \textit{0.099} & \textit{0.246} & \textit{0.540} & \textit{0.577} \\
     \textbf{   testing/0} & 57.06 & 0.0993 & 0.2472 & 0.524 & 0.571 \\
@@ -213,24 +219,27 @@ It is interesting to note a large dip in precision for two pairs (2). From the c
     \textbf{   testing/8} & 57.68 & 0.099 & 0.2467 & 0.533 & 0.577 \\
     \textbf{   testing/9} & 56.6  & 0.1   & 0.2496 & 0.53  & 0.566 \\
     \textbf{} &       &       &       &       &  \\
-    \textbf{Ratio Subsets (avg)} & \textit{71.815} & \textit{0.076} & \textit{0.194} & \textit{0.727} & \textit{0.718} \\
-    \textbf{   training/0} & 71.5086 & 0.0758 & 0.1945 & 0.709 & 0.715 \\
-    \textbf{   training/1} & 72.8091 & 0.0746 & 0.1927 & 0.739 & 0.728 \\
-    \textbf{   training/2} & 71.1285 & 0.0764 & 0.1961 & 0.734 & 0.711 \\
+    \textbf{Ratio Subsets (avg)} & \textit{51.627} & \textit{0.108} & \textit{0.248} & \textit{0.477} & \textit{0.516} \\
+    \textbf{   training/0} & 52.6811 & 0.1085 & 0.2464 & 0.493 & 0.527 \\
+    \textbf{   training/1} & 51.5206 & 0.1081 & 0.2479 & 0.473 & 0.515 \\
+    \textbf{   training/2} & 50.6803 & 0.1086 & 0.2493 & 0.465 & 0.507 \\
     \bottomrule
     \end{tabular}%
 
-\caption{J45 Decision Tree Classification for Poker hands for complete training set with class validation, 10 sets of test data and smaller training sets}   
+
+\caption{J45 Decision Tree Classification for Poker hands for complete training set with 10-fold cross validation, 10 sets of test data and smaller training sets}   
   \label{tab:dtresults}%
 \end{table}%
 
-\subsection*{Neural Network}
+\subsubsection*{MultiLayerPerceptron Neural Network}
 
-Table \ref{tab:nnresults} shows Neural Networks achieved a surprising leap in correct classification rate with 93.43\% and a root mean squared error of 0.07 when run using 10-fold validation, compared to that of the other two classification algorithms. This is probably due to the fact that calibrated attribute weightings can be much more sensitive to rare hands than probabilities.
+Table \ref{tab:nnresults} shows the MultiLayerPerceptron achieved a surprising leap in correct classification rate with 93.43\% and a root mean squared error of 0.07, compared to that of the other two classification algorithms. This is probably due to the fact that calibrated attribute weightings can be more sensitive to rare hands than probabilities.
 
-Of note is the large increase in precision for 3 of a Kind (3), which may be it can be satisfied in relatively few ways, and involves only 3 cards. The precision for hands than involve 4 or more cards is significantly lower. For example, 2 pairs (2) is often misclassified as a single pair (1). This is also consistent with hands involving a smaller number of cards having a higher precision classification rate. 
+Of note is the large increase in precision for 3 of a Kind (3), which may be because the class can be satisfied in relatively few ways, and involves only 3 cards. The precision for hands than involve 4 or more cards is significantly lower. For example, 2 pairs (2) is often misclassified as a single pair (1). This is also consistent with hands involving a smaller number of cards having a higher precision classification rate; full results are contained in Appendix \ref{app:neural}.
 
-The execution time was considerably longer than that of the other two classification algorithms, yet in this case the huge increase in precision would justify the longer run time.
+The classifier performed consistently on the 10 test data sets with an average correct classification rate of 94.4\%, which is a slightly above the 10-fold cross-validation result. Training on the small subsets produced greatly inferior correct classification rates, with an average of 66.8\%. This confirms that there was no overfitting occurring in the full data set.
+
+The execution time was considerably longer than that of the other two classification algorithms, yet in this case the huge increase in precision would seem to justify the longer run time.
                  
 \begin{table}[htbp]
   \centering
@@ -252,17 +261,104 @@ The execution time was considerably longer than that of the other two classifica
     \textbf{   testing/8} & 94.16 & 0.008 & 0.0626 & 0.894 & 0.942 \\
     \textbf{   testing/9} & 93.72 & 0.0086 & 0.0657 & 0.887 & 0.937 \\
     \textbf{} &       &       &       &       &  \\
-    \textbf{Ratio Subsets (avg)} & \textit{94.805} & \textit{0.007} & \textit{0.056} & \textit{0.903} & \textit{0.948} \\
-    \textbf{   training/0} & 94.7979 & 0.0068 & 0.0559 & 0.903 & 0.948 \\
-    \textbf{   training/1} & 94.7379 & 0.007 & 0.0568 & 0.902 & 0.947 \\
-    \textbf{   training/2} & 94.878 & 0.0067 & 0.0546 & 0.904 & 0.949 \\
+    \textbf{Ratio Subsets (avg)} & \textit{66.820} & \textit{0.069} & \textit{0.242} & \textit{0.647} & \textit{0.668} \\
+    \textbf{   training/0} & 62.445 & 0.0775 & 0.2616 & 0.603 & 0.624 \\
+    \textbf{   training/1} & 68.0472 & 0.0658 & 0.2365 & 0.662 & 0.68 \\
+    \textbf{   training/2} & 69.968 & 0.0623 & 0.2288 & 0.677 & 0.7 \\
     \bottomrule
     \end{tabular}%
 
-
-\caption{Neural Network Classification for Poker hands for complete training set with class validation, 10 sets of test data and smaller training sets}   
+\caption{Neural Network Classification for Poker hands for complete training set with 10-fold cross validation, 10 sets of test data and smaller training sets}   
   \label{tab:nnresults}%
 \end{table}%
+
+\subsection*{Conclusions}
+
+The MultiLayerPerceptron Neural Network algorithm is significantly better at classifying Poker hands than both the C4.5 Decision Tree algorithm, J48, and Na\"ive Bayesian algorithm, although the J48 delivers markedly better results than the Na\"ive Bayesian algorithm for approximately the same processing time.
+
+10-fold cross validation reliably produced results consistent with how the algorithms performed when tested on separate test sets; no significant discrepancies were observed. 
+
+Overfitting did not occur with any of the algorithms on the complete training data set as the small subsets consistently produced poorer correct classification rates, with the most significant difference occurring in the MultiLayerPerceptron algorithm. This is likely due to the fact that cross-validation already uses subsets of the training data to validate the algorithm.
+
+
+\section*{Experiment 2: Investigating the Effect of Card Ordering on Classification}
+
+\subsection*{Aim}
+
+Cards appear in the training data files in random orders and while this does not affect the type of each Poker hand they are, it affects which attributes a particular card falls within. The aim of this experiment is to test whether this prevents the classifier methods from finding similarities between hands that have the same or similar cards, but in different orders.
+
+\subsection*{Method}
+
+The training data from Experiment 1, which placed cards in each hand in random order, was ordered into two new configurations: ascending by card value, and by suite. Cards with the same card value were then sorted into suites in the first case, and those with the same suite were further sorted by card value in the second. Each of the classier algorithms in Experiment 1 was run again on the newly ordered training data using 10-fold cross-validation. The results of each algorithm were then compared to the corresponding results from Experiment 1. Where the performance of the classifiers was improved, it was confirmed that random ordering was preventing effective classifications of similar Poker hands in different orders.
+
+A script (\texttt{data\_reorderer.py}) was devised that would take an input file, split each line into its contained pairs, sort the pairs, then write them out to the file again. The card ordering that is sorted by card then suite is labelled in all places as ``cssort'', similarly the inverse is labelled ``scsort''.
+
+\subsection*{Results}
+
+\subsubsection*{Na\"ive Bayesian}
+
+Table \ref{tab:nboresults} reveals a significant increase in correct classification rate of Poker hands ordered by Card Value with 62.72\%. Poker hands ordered by suite showed a much more modest improvement in classification performance with 49.38\% over the original unordered hands with 49.06\%. The complete results for the ordered hands can be found in Appendix \ref{app:naive}.
+
+\begin{table}[htbp]
+  \centering  
+    \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Order} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    Unordered & 49.064 & 0.114 & 0.239 & 0.421 & 0.491 \\
+    By Card Value & 62.715 & 0.092 & 0.217 & 0.617 & 0.627 \\
+    By Suite & 49.380 & 0.113 & 0.239 & 0.446 & 0.494 \\
+    \bottomrule
+    \end{tabular}%
+  \caption{Na\"ive Bayesian Classification for ordered and unordered Poker hands}
+  \label{tab:nboresults}%
+\end{table}%
+
+\subsubsection*{C4.5 Decision Tree}
+
+An enormous improvement was seen in correct classification rate of C4.5 for Poker hands ordered by card value with 93.60\%, compared to that of the unordered hands, 57.54\%. Interestingly, Table \ref{tab:dtoresults} reveals that ordering by suite actually decreased the correct classification rate to 56.00\%. This was probably because the sorting essentially standardised certain attribute values. For example, most hands would contain at least 1 card belonging to the Heart suite, which is always placed at the start of the hand. This essentially gives the second attribute (the suite of the first card) the same value for all of the Poker hands, making it useless for distinguishing between records. The complete results for the ordered hands can be found in Appendix \ref{app:c45}.
+
+\begin{table}[htbp]
+  \centering  
+    \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Order} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    Unordered & 57.54 & 0.10  & 0.25  & 0.54  & 0.58 \\
+    By Card Value & 93.603 & 0.022 & 0.110 & 0.932 & 0.936 \\
+    By Suite & 55.990 & 0.106 & 0.232 & 0.532 & 0.560 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+  \caption{C4.5 Classification for ordered and unordered Poker hands}
+  \label{tab:dtoresults}%
+\end{table}%
+
+\subsubsection*{MultiLayerPerceptron Neural Network}
+
+Table \ref{tab:nnoresults} reveals a relatively small increase in correct classification rate can be achieved by ordering the cards by card value 94.4\% when compared to the classification rate for unordered hands, 93.43\%. Ordering by suite again decreased the performance of the algorithm to 88.8\%, which is a smaller decrease than C4.5 saw. This is again, probably due to the elimination of some attributes as distinguishable properties of different Poker hands. The complete results for the ordered hands can be found in Appendix \ref{app:neural}.
+
+\begin{table}[htbp]
+  \centering  
+    \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Order} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    Unordered & 93.427 & 0.010 & 0.075 & 0.903 & 0.934 \\
+    By Card Value & 94.422 & 0.008 & 0.063 & 0.944 & 0.944 \\
+    By Suite & 88.753 & 0.020 & 0.118 & 0.879 & 0.888 \\
+    \bottomrule
+    \end{tabular}%
+
+  \caption{MultiLayerPerceptron Classification for ordered and unordered Poker hands}
+  \label{tab:nnoresults}%
+\end{table}%
+
+\subsection*{Conclusion}
+
+Ordering Poker hands by card value improves the correct classification rates for all algorithms considered. The increase was particularly large in C4.5, but still present in Na\"ive Bayesian and MultiLayerPerceptron to lesser extents. 
+
+Ordering by suite shows little improvement in Na\"ive Bayesian classification, but dramatically reduces the performance of C4.5 and MultiLayerPerceptron by inadvertently destroying information by making some attributes identical for most hands. 
 
 \begin{thebibliography}{9}
 
@@ -270,7 +366,7 @@ The execution time was considerably longer than that of the other two classifica
 	Poker Hand Training Data,	
 	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/poker-hand-training-true.data
 	
-\bibitem{testingdata}
+\bibitem{testdata}
 	Poker Hand Test Data,	
 	http://undergraduate.csse.uwa.edu.au/units/CITS3401/labs/poker-hand-testing.data
 	
@@ -294,11 +390,15 @@ The execution time was considerably longer than that of the other two classifica
 
 \bibliographystyle{IEEEtranN}
 
+\clearpage
+
 \appendix
 
 \section*{Appendices}
 
-\section{Na\"ive Bayesian Confusion Matrix For Complete Training Data and Cross Validation On Original Data}
+\section{Confusion matrices using 10-fold cross validation on randomly ordered Poker hand training data}
+
+\subsection*{Na\"ive Bayesian}
 
 \begin{verbatim}
 === Confusion Matrix ===
@@ -316,7 +416,7 @@ The execution time was considerably longer than that of the other two classifica
      4     1     0     0     0     0     0     0     0     0 |     j = RF
 \end{verbatim}
 
-\section{Decision Tree Confusion Matrix For Complete Training Data and Cross Validation On Original Data}
+\subsection*{J48}
 
 \begin{verbatim}
 === Confusion Matrix ===
@@ -334,7 +434,7 @@ The execution time was considerably longer than that of the other two classifica
      4     0     0     0     1     0     0     0     0     0 |     j = RF
 \end{verbatim}
 
-\section{Neural Network Confusion Matrix For Complete Training Data and Cross Validation On  Original Data}
+\subsection*{Neural Network}
 
 \begin{verbatim}
 === Confusion Matrix ===
@@ -352,5 +452,179 @@ The execution time was considerably longer than that of the other two classifica
      5     0     0     0     0     0     0     0     0     0 |     j = RF
 \end{verbatim}
 
+\label{app:confusion}
+
+\clearpage
+
+\section{Na\"ive Bayesian Classification for Ordered Poker Hands}
+\label{app:naive}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Prec. & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 62.715 & 0.092 & 0.217 & 0.617 & 0.627 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{62.312} & \textit{0.093} & \textit{0.218} & \textit{0.614} & \textit{0.623} \\
+    \textbf{   testing/0} & 63.18 & 0.0927 & 0.218 & 0.617 & 0.632 \\
+    \textbf{   testing/1} & 63.3  & 0.0923 & 0.2172 & 0.628 & 0.633 \\
+    \textbf{   testing/2} & 63.42 & 0.0916 & 0.2161 & 0.627 & 0.634 \\
+    \textbf{   testing/3} & 61.6  & 0.093 & 0.2187 & 0.607 & 0.616 \\
+    \textbf{   testing/4} & 62.22 & 0.0923 & 0.2176 & 0.615 & 0.622 \\
+    \textbf{   testing/5} & 62.14 & 0.0928 & 0.219 & 0.607 & 0.621 \\
+    \textbf{   testing/6} & 61.58 & 0.0934 & 0.2199 & 0.601 & 0.616 \\
+    \textbf{   testing/7} & 61.58 & 0.093 & 0.2189 & 0.619 & 0.616 \\
+    \textbf{   testing/8} & 61.66 & 0.0938 & 0.2207 & 0.601 & 0.617 \\
+    \textbf{   testing/9} & 62.44 & 0.0917 & 0.2165 & 0.615 & 0.624 \\
+    \bottomrule
+    \end{tabular}%
+\caption{Na\"ive Bayesian Classification for Poker hands ordered by card value for complete training set with 10-fold cross validation and 10 sets of test data}   
+  \label{tab:nbocresults}%
+\end{table}%
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Prec. & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 49.380 & 0.113 & 0.239 & 0.446 & 0.494 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{49.290} & \textit{0.113} & \textit{0.239} & \textit{0.446} & \textit{0.493} \\
+    \textbf{   testing/0} & 49.48 & 0.1135 & 0.2392 & 0.451 & 0.495 \\
+    \textbf{   testing/1} & 49.88 & 0.1127 & 0.2378 & 0.451 & 0.499 \\
+    \textbf{   testing/2} & 49.9  & 0.1129 & 0.2378 & 0.456 & 0.499 \\
+    \textbf{   testing/3} & 49.38 & 0.1133 & 0.2386 & 0.443 & 0.494 \\
+    \textbf{   testing/4} & 47.96 & 0.1132 & 0.2389 & 0.43  & 0.48 \\
+    \textbf{   testing/5} & 49.12 & 0.1134 & 0.2392 & 0.443 & 0.491 \\
+    \textbf{   testing/6} & 49.24 & 0.1133 & 0.2391 & 0.441 & 0.492 \\
+    \textbf{   testing/7} & 48.8  & 0.1133 & 0.239 & 0.447 & 0.488 \\
+    \textbf{   testing/8} & 49.4  & 0.1127 & 0.2377 & 0.448 & 0.494 \\
+    \textbf{   testing/9} & 49.74 & 0.1128 & 0.2377 & 0.448 & 0.497 \\
+    \bottomrule
+    \end{tabular}%
+
+	\caption{Na\"ive Bayesian Classification for Poker hands ordered by suite for complete training set with 10-fold cross validation and 10 sets of test data}   
+  \label{tab:nbosresults}%
+\end{table}%
+
+
+\clearpage
+
+\section{C4.5 Classification for Ordered Poker Hands}
+\label{app:c45}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 93.603 & 0.022 & 0.110 & 0.932 & 0.936 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{94.000} & \textit{0.020} & \textit{0.106} & \textit{0.938} & \textit{0.940} \\
+    \textbf{   testing/0} & 93.92 & 0.0204 & 0.1073 & 0.936 & 0.939 \\
+    \textbf{   testing/1} & 94.14 & 0.0198 & 0.1053 & 0.939 & 0.941 \\
+    \textbf{   testing/2} & 94.54 & 0.0195 & 0.1022 & 0.944 & 0.945 \\
+    \textbf{   testing/3} & 93.74 & 0.0209 & 0.1091 & 0.935 & 0.937 \\
+    \textbf{   testing/4} & 94.02 & 0.0201 & 0.1067 & 0.938 & 0.94 \\
+    \textbf{   testing/5} & 93.88 & 0.0205 & 0.1075 & 0.937 & 0.939 \\
+    \textbf{   testing/6} & 94.44 & 0.0192 & 0.1027 & 0.941 & 0.944 \\
+    \textbf{   testing/7} & 94.08 & 0.0199 & 0.1053 & 0.94  & 0.941 \\
+    \textbf{   testing/8} & 93.3  & 0.0214 & 0.1115 & 0.93  & 0.933 \\
+    \textbf{   testing/9} & 93.94 & 0.0202 & 0.1069 & 0.937 & 0.939 \\
+    \bottomrule
+    \end{tabular}%
+
+\caption{C4.5 Classification for Poker hands ordered by card value for complete training set with 10-fold cross validation and 10 sets of test data}   
+  \label{tab:dtocresults}%
+\end{table}%
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 55.990 & 0.106 & 0.232 & 0.532 & 0.560 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{56.398} & \textit{0.105} & \textit{0.231} & \textit{0.533} & \textit{0.564} \\
+    \textbf{   testing/0} & 54.86 & 0.1058 & 0.233 & 0.516 & 0.549 \\
+    \textbf{   testing/1} & 57.62 & 0.1041 & 0.2296 & 0.551 & 0.576 \\
+    \textbf{   testing/2} & 55.64 & 0.1052 & 0.2316 & 0.534 & 0.556 \\
+    \textbf{   testing/3} & 56.3  & 0.1051 & 0.2315 & 0.523 & 0.563 \\
+    \textbf{   testing/4} & 57.08 & 0.1045 & 0.2306 & 0.538 & 0.571 \\
+    \textbf{   testing/5} & 56.04 & 0.105 & 0.2317 & 0.527 & 0.56 \\
+    \textbf{   testing/6} & 55.82 & 0.1059 & 0.2332 & 0.516 & 0.558 \\
+    \textbf{   testing/7} & 56.26 & 0.1045 & 0.2306 & 0.542 & 0.563 \\
+    \textbf{   testing/8} & 56.96 & 0.1047 & 0.2307 & 0.542 & 0.57 \\
+    \textbf{   testing/9} & 57.4  & 0.1043 & 0.2301 & 0.539 & 0.574 \\
+    \bottomrule
+    \end{tabular}%
+
+
+	\caption{C4.5 Classification for Poker hands ordered by suite for complete training set with 10-fold cross validation and 10 sets of test data}   
+  \label{tab:mlpsresults}%
+\end{table}%
+
+\clearpage
+
+\section{MultiLayerPerceptron Classification for Ordered Poker Hands}
+\label{app:neural}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 94.422 & 0.008 & 0.063 & 0.944 & 0.944 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{94.318} & \textit{0.007} & \textit{0.063} & \textit{0.898} & \textit{0.943} \\
+    \textbf{   testing/0} & 94.7  & 0.007 & 0.0613 & 0.903 & 0.947 \\
+    \textbf{   testing/1} & 94.44 & 0.0071 & 0.0616 & 0.899 & 0.944 \\
+    \textbf{   testing/2} & 93.88 & 0.0077 & 0.0644 & 0.891 & 0.939 \\
+    \textbf{   testing/3} & 94.8  & 0.0068 & 0.0603 & 0.905 & 0.948 \\
+    \textbf{   testing/4} & 94.5  & 0.0069 & 0.0617 & 0.901 & 0.945 \\
+    \textbf{   testing/5} & 94.24 & 0.0074 & 0.0637 & 0.897 & 0.942 \\
+    \textbf{   testing/6} & 94.7  & 0.007 & 0.0618 & 0.904 & 0.947 \\
+    \textbf{   testing/7} & 94.22 & 0.0074 & 0.0644 & 0.897 & 0.942 \\
+    \textbf{   testing/8} & 93.74 & 0.008 & 0.0663 & 0.889 & 0.937 \\
+    \textbf{   testing/9} & 93.96 & 0.0078 & 0.0645 & 0.893 & 0.94 \\
+    \bottomrule
+    \end{tabular}%
+
+
+\caption{MultiLayerPerceptron Classification for Poker hands ordered by card value for complete training set with 10-fold cross validation and 10 sets of test data}   
+  \label{tab:nnocresults}%
+\end{table}%
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{p{3cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}p{1.5cm}}
+    \toprule
+    \textbf{Data Set} & Correct Class. \% & Mean Abs. error & RMS error & Weighted Avg. Precision & Weighted Avg. Recall \\
+    \midrule
+    \textbf{10-fold crossv} & 88.753 & 0.020 & 0.118 & 0.879 & 0.888 \\
+    \textbf{} &       &       &       &       &  \\
+    \textbf{Test sets (avg)} & \textit{86.714} & \textit{0.02442} & \textit{0.1332} & \textit{0.8649} & \textit{0.8673} \\
+    \textbf{   testing/0} & 85.46 & 0.0264 & 0.1382 & 0.851 & 0.855 \\
+    \textbf{   testing/1} & 87.64 & 0.0232 & 0.1294 & 0.873 & 0.876 \\
+    \textbf{   testing/2} & 87.06 & 0.0237 & 0.1324 & 0.867 & 0.871 \\
+    \textbf{   testing/3} & 86.66 & 0.0245 & 0.1333 & 0.866 & 0.867 \\
+    \textbf{   testing/4} & 86.48 & 0.0247 & 0.1347 & 0.865 & 0.865 \\
+    \textbf{   testing/5} & 86.32 & 0.025 & 0.1354 & 0.857 & 0.863 \\
+    \textbf{   testing/6} & 86.18 & 0.0255 & 0.136 & 0.862 & 0.862 \\
+    \textbf{   testing/7} & 86.6  & 0.0249 & 0.1339 & 0.869 & 0.866 \\
+    \textbf{   testing/8} & 87.26 & 0.0235 & 0.1305 & 0.871 & 0.873 \\
+    \textbf{   testing/9} & 87.48 & 0.0228 & 0.1282 & 0.868 & 0.875 \\
+    \bottomrule
+    \end{tabular}%
+
+	\caption{MultiLayerPerceptron Classification for Poker hands ordered by suite for complete training set with 10-fold cross validation and 10 sets of test data}   
+  \label{tab:nnosresults}%
+\end{table}%
 
 \end{document}
